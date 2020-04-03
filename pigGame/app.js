@@ -23,7 +23,7 @@ activePlayer = 0;
 
 document.querySelector('.dice').style.display = 'none'; // call style() method to change display property(css property and also value)
 
-//in this case we use anonymous func, just to use it here 
+// we use anonymous func, just to use it here 
 //addEventListener has 2 arguments, first arg type of the event, second is the func that will be called asap when event happened but just the name without () because we don't want to called right there, we want event listener to call the func for us 
 
 
@@ -45,9 +45,25 @@ document.querySelector('.btn-roll').addEventListener('click', function(){
     
     
     //3. Update the round score If the rolled number is not  1
-    if (dice != 1){
-        roundScore = dice;
+    if (dice !== 1){
+        roundScore += dice;
         //scores[0] += roundScore; 
-        document.getElementById('current-' + activePlayer).textContent = dice;
+        document.getElementById('current-' + activePlayer).textContent = roundScore;
+    } else { //if we rolled 1 this block of code happens
+        //Next player
+        activePlayer === 0 ? activePlayer = 1 : activePlayer = 0; //verify current playe
+        roundScore = 0;
+        
+        document.getElementById('current-0').textContent = '0';
+        document.getElementById('current-1').textContent = '0';
+        
+        document.querySelector('.player-0-panel').classList.toggle('active');
+        document.querySelector('.player-1-panel').classList.toggle('active');
+        
+        //as a reference better way is to use toggle
+        //document.querySelector('.player-0-panel').classList.remove('active');
+        //document.querySelector('.player-1-panel').classList.add('active');
+        
+        document.querySelector('.dice').style.display = 'none';
     }
 }); 
