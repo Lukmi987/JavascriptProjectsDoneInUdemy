@@ -51,7 +51,33 @@ document.querySelector('.btn-roll').addEventListener('click', function(){
         document.getElementById('current-' + activePlayer).textContent = roundScore;
     } else { //if we rolled 1 this block of code happens
         //Next player
-        activePlayer === 0 ? activePlayer = 1 : activePlayer = 0; //verify current playe
+        nextPlayer();
+    }
+}); 
+
+document.querySelector('.btn-hold').addEventListener('click', function() {
+    //Add Current score to GLOBAL score
+    scores[activePlayer] += roundScore;
+    
+    //Update the UI
+    document.querySelector('#score-' + activePlayer).textContent = scores[activePlayer];
+    
+    //check if the player won the game
+    if(scores[activePlayer] >= 100){
+        document.querySelector('#name-' + activePlayer).textContent = 'Winner!';
+        document.querySelector('.dice').style.display = 'none';
+        document.querySelector('.player-' + activePlayer + '-panel').classList.add('winner');// accessing the class which we'd defined in css
+        document.querySelector('.player-' + activePlayer + '-panel').classList.remove('active');
+    } else{  
+    //Next player
+    nextPlayer();
+    }
+});
+
+
+
+function nextPlayer(){
+    activePlayer === 0 ? activePlayer = 1 : activePlayer = 0; // set the current player
         roundScore = 0;
         
         document.getElementById('current-0').textContent = '0';
@@ -65,5 +91,4 @@ document.querySelector('.btn-roll').addEventListener('click', function(){
         //document.querySelector('.player-1-panel').classList.add('active');
         
         document.querySelector('.dice').style.display = 'none';
-    }
-}); 
+}
