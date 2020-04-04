@@ -9,7 +9,7 @@ GAME RULES:
 
 */
 
-var scores, roundScore, activePlayer;
+var scores, roundScore, activePlayer, gamePlaying;
 
 initialize();
 
@@ -23,6 +23,7 @@ initialize();
 
 // and in that case it is called a call back func because it is not called by us
 document.querySelector('.btn-roll').addEventListener('click', function(){
+    if(gamePlaying){ // prevent the player keep playing when he wins the game
     // 1. Random number
    var dice = Math.floor(Math.random() * 6) +1;
     
@@ -41,9 +42,11 @@ document.querySelector('.btn-roll').addEventListener('click', function(){
         //Next player
         nextPlayer();
     }
+}
 }); 
 
 document.querySelector('.btn-hold').addEventListener('click', function() {
+    if (gamePlaying){ 
     //Add Current score to GLOBAL score
     scores[activePlayer] += roundScore;
     
@@ -51,15 +54,17 @@ document.querySelector('.btn-hold').addEventListener('click', function() {
     document.querySelector('#score-' + activePlayer).textContent = scores[activePlayer];
     
     //check if the player won the game
-    if(scores[activePlayer] >= 100){
+    if(scores[activePlayer] >= 10){
         document.querySelector('#name-' + activePlayer).textContent = 'Winner!';
         document.querySelector('.dice').style.display = 'none';
         document.querySelector('.player-' + activePlayer + '-panel').classList.add('winner');// accessing the class which we'd defined in css
         document.querySelector('.player-' + activePlayer + '-panel').classList.remove('active');
+        gamePlaying = false;
     } else{  
     //Next player
     nextPlayer();
     }
+ }
 });
 
 
@@ -88,7 +93,7 @@ function initialize(){
 scores = [0,0];
 roundScore = 0;
 activePlayer = 0;
-
+gamePlaying = true;
 document.querySelector('.dice').style.display = 'none'; // call style() method to change display property(css property and also value)
     
 document.getElementById('score-0').textContent = '0';
