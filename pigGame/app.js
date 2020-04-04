@@ -11,27 +11,15 @@ GAME RULES:
 
 var scores, roundScore, activePlayer;
 
-scores = [0,0];
-roundScore = 0;
-activePlayer = 0;
-
+initialize();
 
 // Due to type coercion, JavaScript will convert to 'current-0 or 1',//textContent can just change plain text, no Html, for that we use innerHtml()
 //document.querySelector('#current-' + activePlayer).innerHTML = '<em>' + dice + '</em>'; // on querySelector() we call textContent method
 
 //var x = document.querySelector('#score-0').textContent; // just to read it/ getter
 
-document.querySelector('.dice').style.display = 'none'; // call style() method to change display property(css property and also value)
-
 // we use anonymous func, just to use it here 
 //addEventListener has 2 arguments, first arg type of the event, second is the func that will be called asap when event happened but just the name without () because we don't want to called right there, we want event listener to call the func for us 
-
-
-document.getElementById('score-0').textContent = '0';
-document.getElementById('score-1').textContent = '0';
-document.getElementById('current-0').textContent = '0';
-document.getElementById('current-1').textContent = '0';
-
 
 // and in that case it is called a call back func because it is not called by us
 document.querySelector('.btn-roll').addEventListener('click', function(){
@@ -91,4 +79,27 @@ function nextPlayer(){
         //document.querySelector('.player-1-panel').classList.add('active');
         
         document.querySelector('.dice').style.display = 'none';
+}
+
+
+document.querySelector('.btn-new').addEventListener('click',initialize); //if init() it would be immediately called, but we want to be call it by eventListener func
+
+function initialize(){
+scores = [0,0];
+roundScore = 0;
+activePlayer = 0;
+
+document.querySelector('.dice').style.display = 'none'; // call style() method to change display property(css property and also value)
+    
+document.getElementById('score-0').textContent = '0';
+document.getElementById('score-1').textContent = '0';
+document.getElementById('current-0').textContent = '0';
+document.getElementById('current-1').textContent = '0';
+document.getElementById('name-0').textContent = 'Player1';
+document.getElementById('name-1').textContent = 'Player 2';
+document.querySelector('.player-0-panel').classList.remove('winner');
+document.querySelector('.player-1-panel').classList.remove('winner');
+document.querySelector('.player-0-panel').classList.remove('active'); //to be sure we do not have left any active classes , do not want to end up with 2 active classes
+document.querySelector('.player-1-panel').classList.remove('active');
+document.querySelector('.player-0-panel').classList.add('active');
 }
