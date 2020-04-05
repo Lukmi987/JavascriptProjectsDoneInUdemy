@@ -9,7 +9,10 @@ GAME RULES:
 
 */
 
-var scores, roundScore, activePlayer, gamePlaying;
+var scores, roundScore, activePlayer, gamePlaying,previousRoll;
+
+//winningNumber = prompt("Please enter the winning value of the game");
+
 
 initialize();
 
@@ -24,24 +27,34 @@ initialize();
 // and in that case it is called a call back func because it is not called by us
 document.querySelector('.btn-roll').addEventListener('click', function(){
     if(gamePlaying){ // prevent the player keep playing when he wins the game
-    // 1. Random number
+        // 1. Random number
    var dice = Math.floor(Math.random() * 6) +1;
+   var dice1 = Math.floor(Math.random() * 6) +1;
     
-    //2. Display the result
     var diceDOM = document.querySelector('.dice');
+    var dice1DOM = document.querySelector('.dice1');    
     diceDOM.style.display = 'block';
+    dice1DOM.style.display = 'block';
     diceDOM.src = 'dice-' + dice + '.png';
+    dice1DOM.src = 'dice-' + dice1 + '.png';
     
-    
+   
     //3. Update the round score If the rolled number is not  1
-    if (dice !== 1){
-        roundScore += dice;
-        //scores[0] += roundScore; 
+    if( dice === 6 && previousRoll === 6){
+         scores[activePlayer] = 0;
+         document.querySelector('#score-' + activePlayer).textContent = scores[activePlayer];
+            nextPlayer();         
+    } else {
+        
+        if (dice !== 1 || dice1 !== 1){ 
+        roundScore += dice + dice1;
         document.getElementById('current-' + activePlayer).textContent = roundScore;
     } else { //if we rolled 1 this block of code happens
         //Next player
         nextPlayer();
     }
+ }
+    previousRoll = dice;        
 }
 }); 
 
@@ -52,11 +65,20 @@ document.querySelector('.btn-hold').addEventListener('click', function() {
     
     //Update the UI
     document.querySelector('#score-' + activePlayer).textContent = scores[activePlayer];
-    
+        
+    var input = document.querySelector('.final-score').value;
+    var winnigScore;
+    // Undefined, 0, null or '' are Coerced to false
+        if(input){ 
+            winnigScore = input;
+        } else {
+            winnigScore = 100;
+        }
     //check if the player won the game
-    if(scores[activePlayer] >= 10){
+    if(scores[activePlayer] >= winnigScore){
         document.querySelector('#name-' + activePlayer).textContent = 'Winner!';
         document.querySelector('.dice').style.display = 'none';
+        document.querySelector('.dice1').style.display = 'none';
         document.querySelector('.player-' + activePlayer + '-panel').classList.add('winner');// accessing the class which we'd defined in css
         document.querySelector('.player-' + activePlayer + '-panel').classList.remove('active');
         gamePlaying = false;
@@ -66,7 +88,6 @@ document.querySelector('.btn-hold').addEventListener('click', function() {
     }
  }
 });
-
 
 
 function nextPlayer(){
@@ -84,6 +105,7 @@ function nextPlayer(){
         //document.querySelector('.player-1-panel').classList.add('active');
         
         document.querySelector('.dice').style.display = 'none';
+    document.querySelector('.dice').style.display = 'none';
 }
 
 
@@ -95,6 +117,7 @@ roundScore = 0;
 activePlayer = 0;
 gamePlaying = true;
 document.querySelector('.dice').style.display = 'none'; // call style() method to change display property(css property and also value)
+document.querySelector('.dice1').style.display = 'none';
     
 document.getElementById('score-0').textContent = '0';
 document.getElementById('score-1').textContent = '0';
