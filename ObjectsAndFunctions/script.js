@@ -44,34 +44,73 @@
 
 //Primitives vs objects
 
-var obj1 = {
-    name: 'John',
-    age: 26
-};
+//var obj1 = {
+//    name: 'John',
+//    age: 26
+//};
+//
+//var obj2 = obj1;
+//obj1.age = 30;
+//console.log(obj1.age);
+//console.log(obj2.age);
+////result is 30 for both, because in obj2 is stored a referance for obj1 
+//
+////Functions
+//var age = 28;
+//var obj = {
+//    name: 'Lukas',
+//    city: 'Lisbon'
+//};
+//
+//
+////when we pass a primit into func a simple copy is created but it will never affect the variable outside
+//
+//function change(a,b){ // mutate the data
+//    a = 30; // not changing to 30 , primitive type still 28
+//    b.city = 'Berlin'; // refer changes from Lisbon to Berlin
+//}
+//
+//// we do not pass an object into a function but only the reference that points to the object, so it is reflected outside
+//change(age,obj);
+//
+//console.log(age);// it is still 28
+//console.log(obj.city); // we change the referance to Berlin
 
-var obj2 = obj1;
-obj1.age = 30;
-console.log(obj1.age);
-console.log(obj2.age);
-//result is 30 for both, because in obj2 is stored a referance for obj1 
-
-//Functions
-var age = 28;
-var obj = {
-    name: 'Lukas',
-    city: 'Lisbon'
-};
 
 
-//when we pass a primit into func a simple copy is created but it will never affect the variable outside
+/////////////////////////////////////////////////////////
+// Lecture: Passing Functions as arguments
 
-function change(a,b){ // mutate the data
-    a = 30; // not changing to 30 , primitive type still 28
-    b.city = 'Berlin'; // refer changes from Lisbon to Berlin
+var years = [1990, 1995,1998,2005];
+
+function arrayCalc(arr, fn){
+    var arrRes =[];
+    for(var i = 0; i < arr.length; i++){
+        arrRes.push(fn(arr[i]));
+    } 
+    return arrRes;
 }
 
-// we do not pass an object into a function but only the reference that points to the object, so it is reflected outside
-change(age,obj);
+function calcAge(el){
+    return 2016 - el;
+}
 
-console.log(age);// it is still 28
-console.log(obj.city); // we change the referance to Berlin
+function issFullAge(el){
+    return el >= 18;
+}
+
+function maxHeartRate(el){
+    if(el >= 18 && el <= 81){ 
+    return Math.round(206.9 - (0.67 * el));
+    } else {
+        return -1;
+    }
+}
+
+//calcAge withou parametr we do not wan to call it immediately but inside for loop, a callback func
+var ages = arrayCalc(years, calcAge); 
+var fullAges = arrayCalc(ages, issFullAge);
+var heartRate = arrayCalc(ages, maxHeartRate);
+console.log(ages);
+console.log(fullAges);
+console.log(heartRate);
