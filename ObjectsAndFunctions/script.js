@@ -81,36 +81,63 @@
 /////////////////////////////////////////////////////////
 // Lecture: Passing Functions as arguments
 
-var years = [1990, 1995,1998,2005];
+//var years = [1990, 1995,1998,2005];
+//
+//function arrayCalc(arr, fn){ // a generic func
+//    var arrRes =[];
+//    for(var i = 0; i < arr.length; i++){
+//        arrRes.push(fn(arr[i]));
+//    } 
+//    return arrRes;
+//}
+//
+//function calcAge(el){
+//    return 2016 - el;
+//}
+//
+//function issFullAge(el){
+//    return el >= 18;
+//}
+//
+//function maxHeartRate(el){
+//    if(el >= 18 && el <= 81){ 
+//    return Math.round(206.9 - (0.67 * el));
+//    } else {
+//        return -1;
+//    }
+//}
+//
+////calcAge withou parametr we do not wan to call it immediately but inside for loop, a callback func
+//var ages = arrayCalc(years, calcAge); 
+//var fullAges = arrayCalc(ages, issFullAge);
+//var heartRate = arrayCalc(ages, maxHeartRate);
+//console.log(ages);
+//console.log(fullAges);
+//console.log(heartRate);
 
-function arrayCalc(arr, fn){
-    var arrRes =[];
-    for(var i = 0; i < arr.length; i++){
-        arrRes.push(fn(arr[i]));
-    } 
-    return arrRes;
+/////////////////////////////////////////////////////////////
+
+//Lecture: Functions returning funcs/ First Class functions
+
+function interviewQuestion(job){
+   if (job === 'designer'){
+       return function(name){ //anonymous func, we return simply object that happens to be a func
+       console.log(name + ',Wha UX is ?');
+       }
+   } else if (job === 'teacher'){
+        return function(name){ //anonymous func
+       console.log(name + ',Wha UX is ?');
+       }
+   } else {
+      return function(name){
+        console.log('What do you do' + name);
+       }
+   } 
 }
 
-function calcAge(el){
-    return 2016 - el;
-}
+var teacherQuestion = interviewQuestion('teacher ');
+var designerQuestion = interviewQuestion('designer');
+console.log(teacherQuestion('Lukas'));
+designerQuestion('Mark');
 
-function issFullAge(el){
-    return el >= 18;
-}
-
-function maxHeartRate(el){
-    if(el >= 18 && el <= 81){ 
-    return Math.round(206.9 - (0.67 * el));
-    } else {
-        return -1;
-    }
-}
-
-//calcAge withou parametr we do not wan to call it immediately but inside for loop, a callback func
-var ages = arrayCalc(years, calcAge); 
-var fullAges = arrayCalc(ages, issFullAge);
-var heartRate = arrayCalc(ages, maxHeartRate);
-console.log(ages);
-console.log(fullAges);
-console.log(heartRate);
+interviewQuestion('teacher')('Mark') //evaluated from left to right
