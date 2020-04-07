@@ -152,5 +152,55 @@
 //    console.log(score >= 5 - goodLuck);
 //})(5);
 
-//////////////////////////
+////////////////////////////////////////////////////
+////Lecture: Closures
+
+ function retirement(retirementAge){
+     var a = ' years left until retirement.';
+     return function(yearOfBirth){
+         var age = 2016 - yearOfBirth;
+         console.log((retirementAge - age) + a);
+     }
+ }
+
+var retirementsUS =retirement(66);//  a variable object of retirement() func is stored in retirementsUS
+var retirementGermany = retirement(65);
+
+retirementGermany(1993);
+retirementsUS(1990);
+
+retirement(66)(1990);
+
+//
+//function interviewQuestion(job){
+//   if (job === 'designer'){
+//       return function(name){ //anonymous func, we return simply object that happens to be a func
+//       console.log(name + ',Wha UX is ?');
+//       }
+//   } else if (job === 'teacher'){
+//        return function(name){ //anonymous func
+//       console.log(name + ',Wha UX is ?');
+//       }
+//   } else {
+//      return function(name){
+//        console.log('What do you do' + name);
+//       }
+//   } 
+//}
+
+function interviewQuestion(job){
+    return function(name){
+        if ( job === 'designer'){
+            console.log(name + ',Wha UX is ?');
+        }else if (job === 'teacher'){
+            console.log('What subject do you teach,' + name + '?');
+        } else {
+          console.log('What do you do' + name);
+        }
+    }
+}
+
+interviewQuestion('teacher')('John');// in the first call we return  whole return func(name), and then we call that func with John argument, and then this execution context will close in over the variable object of the function that we had called before, So it will close in on the variables that we defined in the old func
+
+
 
