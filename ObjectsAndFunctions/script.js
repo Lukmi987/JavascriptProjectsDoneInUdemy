@@ -155,52 +155,117 @@
 ////////////////////////////////////////////////////
 ////Lecture: Closures
 
- function retirement(retirementAge){
-     var a = ' years left until retirement.';
-     return function(yearOfBirth){
-         var age = 2016 - yearOfBirth;
-         console.log((retirementAge - age) + a);
-     }
- }
-
-var retirementsUS =retirement(66);//  a variable object of retirement() func is stored in retirementsUS
-var retirementGermany = retirement(65);
-
-retirementGermany(1993);
-retirementsUS(1990);
-
-retirement(66)(1990);
-
+// function retirement(retirementAge){
+//     var a = ' years left until retirement.';
+//     return function(yearOfBirth){
+//         var age = 2016 - yearOfBirth;
+//         console.log((retirementAge - age) + a);
+//     }
+// }
+//
+//var retirementsUS =retirement(66);//  a variable object of retirement() func is stored in retirementsUS
+//var retirementGermany = retirement(65);
+//
+//retirementGermany(1993);
+//retirementsUS(1990);
+//
+//retirement(66)(1990);
+//
+////
+////function interviewQuestion(job){
+////   if (job === 'designer'){
+////       return function(name){ //anonymous func, we return simply object that happens to be a func
+////       console.log(name + ',Wha UX is ?');
+////       }
+////   } else if (job === 'teacher'){
+////        return function(name){ //anonymous func
+////       console.log(name + ',Wha UX is ?');
+////       }
+////   } else {
+////      return function(name){
+////        console.log('What do you do' + name);
+////       }
+////   } 
+////}
 //
 //function interviewQuestion(job){
-//   if (job === 'designer'){
-//       return function(name){ //anonymous func, we return simply object that happens to be a func
-//       console.log(name + ',Wha UX is ?');
-//       }
-//   } else if (job === 'teacher'){
-//        return function(name){ //anonymous func
-//       console.log(name + ',Wha UX is ?');
-//       }
-//   } else {
-//      return function(name){
-//        console.log('What do you do' + name);
-//       }
-//   } 
+//    return function(name){
+//        if ( job === 'designer'){
+//            console.log(name + ',Wha UX is ?');
+//        }else if (job === 'teacher'){
+//            console.log('What subject do you teach,' + name + '?');
+//        } else {
+//          console.log('What do you do' + name);
+//        }
+//    }
 //}
+//
+//interviewQuestion('teacher')('John');// in the first call we return  whole return func(name), and then we call that func with John argument, and then this execution context will close in over the variable object of the function that we had called before, So it will close in on the variables that we defined in the old func
+//
+/////////////////////////////////////////////////////////////////////////////////
+//Lecture: Bind, call and apply
 
-function interviewQuestion(job){
-    return function(name){
-        if ( job === 'designer'){
-            console.log(name + ',Wha UX is ?');
-        }else if (job === 'teacher'){
-            console.log('What subject do you teach,' + name + '?');
-        } else {
-          console.log('What do you do' + name);
+var john = {
+    name: 'JOhn',
+    age: 26,
+    job: 'teacher',
+    presentation: function(style,timeOfDay){
+        if (style === 'formal'){
+            console.log('Good' + timeOfDay + ' ,Ladies and gentlemen! I am ' + this.name + ' I am ' + this.job + ' and Iam ' + this.age + ' years old.');
+        } else if( style === 'friendly') {
+            console.log('Hey whats upp' + timeOfDay + ' My name ' + this.name);
         }
-    }
+    } 
+};
+
+var emily = {
+    name: 'Emily',
+    age: 36,
+    job: 'designer'
+};
+john.presentation('formal','morning');
+
+//call method allow us to set this variable in first argument
+john.presentation.call(emily, 'formal', 'afternoon'); //method borrowing
+
+//same like call but accept 2 argument, this and an array, but in this case it's not going to work
+//john.presentation.apply(emily, ['friendly', 'afternoon']);
+
+//Bind  method does not immedia call a func but it creates a copy so we can store it somewhere, so it returns a function
+//first argument this variable
+var johnFriendly = john.presentation.bind(john, 'friendly');
+
+//we have some preset parameters already useful
+johnFriendly('morning');
+johnFriendly('night');
+
+var emilyFormal = john.presentation.bind(emily, 'formal');
+emilyFormal('afternoon');
+
+var years = [1990, 1995,1998,2005];
+
+function arrayCalc(arr, fn){ // a generic func
+    var arrRes =[];
+    for(var i = 0; i < arr.length; i++){
+        arrRes.push(fn(arr[i]));
+    } 
+    return arrRes;
 }
 
-interviewQuestion('teacher')('John');// in the first call we return  whole return func(name), and then we call that func with John argument, and then this execution context will close in over the variable object of the function that we had called before, So it will close in on the variables that we defined in the old func
+function calcAge(el){
+    return 2016 - el;
+}
 
+function issFullAge(limit, el){
+    return el >= limit;
+}
 
+var ages = arrayCalc(years, calcAge);
 
+//issFullAge.bind now we can preset the argument,
+//this keyword always first, in this case we do not care about it, second our limit
+//to arrayCalc will be passed a copy of isFull function
+
+var fullJapan = arrayCalc(ages, issFullAge.bind(this, 20));
+console.log(ages);
+console.log(fullJapan);
