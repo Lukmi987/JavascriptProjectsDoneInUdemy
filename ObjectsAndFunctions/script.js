@@ -118,26 +118,39 @@
 /////////////////////////////////////////////////////////////
 
 //Lecture: Functions returning funcs/ First Class functions
+//
+//function interviewQuestion(job){
+//   if (job === 'designer'){
+//       return function(name){ //anonymous func, we return simply object that happens to be a func
+//       console.log(name + ',Wha UX is ?');
+//       }
+//   } else if (job === 'teacher'){
+//        return function(name){ //anonymous func
+//       console.log(name + ',Wha UX is ?');
+//       }
+//   } else {
+//      return function(name){
+//        console.log('What do you do' + name);
+//       }
+//   } 
+//}
+//
+//var teacherQuestion = interviewQuestion('teacher ');
+//var designerQuestion = interviewQuestion('designer');
+//console.log(teacherQuestion('Lukas'));
+//designerQuestion('Mark');
+//
+//interviewQuestion('teacher')('Mark') //evaluated from left to right
 
-function interviewQuestion(job){
-   if (job === 'designer'){
-       return function(name){ //anonymous func, we return simply object that happens to be a func
-       console.log(name + ',Wha UX is ?');
-       }
-   } else if (job === 'teacher'){
-        return function(name){ //anonymous func
-       console.log(name + ',Wha UX is ?');
-       }
-   } else {
-      return function(name){
-        console.log('What do you do' + name);
-       }
-   } 
-}
+//////////////////////////////////////////////
+//Immediately Invoked Function Expression
 
-var teacherQuestion = interviewQuestion('teacher ');
-var designerQuestion = interviewQuestion('designer');
-console.log(teacherQuestion('Lukas'));
-designerQuestion('Mark');
+//IIFE function and to get Data privacy
 
-interviewQuestion('teacher')('Mark') //evaluated from left to right
+//(function (goodLuck) { // it willl treat it as func expression not decleration
+//    var score = Math.random() * 10;
+//    console.log(score >= 5 - goodLuck);
+//})(5);
+
+//////////////////////////
+
