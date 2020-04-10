@@ -1,21 +1,21 @@
-//var Person = function(name,yearOfBirth,job) { // for func constructor we use first letter capital, a good practice,
-//sometime we need a blueprint for creating objects of the same type
-//    this.name = name;
-//    this.yearOfBirth = yearOfBirth;
-//    this.job = job;
-//    //this.calculateAge = function(){
-//      //  console.log(2016 - this.yearOfBirth);
-//    //;
-//}
-//
-////prototype is simple a property of func construc., the method is not define in the Person constructor but we can still use it because it's in the prototype property of our func constructor, inheritence in practice :D
-//Person.prototype.calculateAge = function(){
-//       console.log(2016 - this.yearOfBirth)
-//} 
-// objects of the same type are created calling constr. func with the new keyword
-//var john = new Person('John', 1990, 'teacher');
-//john.calculateAge();
-//
+var Person = function(name,yearOfBirth,job) { // for func constructor we use first letter capital, a good practice,
+sometime we need a blueprint for creating objects of the same type
+    this.name = name;
+    this.yearOfBirth = yearOfBirth;
+    this.job = job;
+    //this.calculateAge = function(){
+      //  console.log(2016 - this.yearOfBirth);
+    ;
+}
+
+//prototype is simple a property of func construc., the method is not define in the Person constructor but we can still use it because it's in the prototype property of our func constructor, inheritence in practice :D
+Person.prototype.calculateAge = function(){
+       console.log(2016 - this.yearOfBirth)
+} 
+ objects of the same type are created calling constr. func with the new keyword
+var john = new Person('John', 1990, 'teacher');
+john.calculateAge();
+
 
 //Object.create allow us directly specify which object should be proto.
 //Difference between Object.create and the func constructor pattern is that object.create builds an object that inherits directly from the one that we passed in the first argument
@@ -248,6 +248,7 @@ function arrayCalc(arr, fn){ // a generic func
     var arrRes =[];
     for(var i = 0; i < arr.length; i++){
         arrRes.push(fn(arr[i]));
+   
     } 
     return arrRes;
 }
@@ -267,5 +268,5 @@ var ages = arrayCalc(years, calcAge);
 //to arrayCalc will be passed a copy of isFull function
 
 var fullJapan = arrayCalc(ages, issFullAge.bind(this, 20));
-console.log(ages);
+///console.log(ages);
 console.log(fullJapan);
