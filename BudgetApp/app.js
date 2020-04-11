@@ -1,6 +1,6 @@
 //Budget Controller
 var budgetController = (function(contrl) { 
-contrl.publicTest;
+
 }) (controller);
 
 
@@ -30,12 +30,25 @@ var UIController = (function () {
 
 //Global App controller, we contral other modules and call mehtods
 var controller = (function(budgetCtrl, UICtrl){
-    var DOM = UICtrl.getDOMstrings(); 
-    var input;
-    var ctrlAddItem = function(){         
-        //1. Get the field input data
-        input = UICtrl.getInput()
-        console.log(input);
+    
+    var setUpEventListeners =   function() {
+        var DOM = UICtrl.getDOMstrings(); 
+    document.querySelector(DOM.inputBtn).addEventListener('click', ctrlAddItem); 
+        
+    //event gets automatically passes by browser to our event listener
+    document.addEventListener('keypress', function(event) {
+        //which for older browsers
+        if(event.keyCode === 13 || event.which === 13){
+           ctrlAddItem();
+        }
+    });
+} // setUpEventListeners()
+    
+var ctrlAddItem = function(){         
+    
+    //1. Get the field input data
+    input = UICtrl.getInput()
+    console.log(input);
         
     //2. Add the item to the budget  controller
     
@@ -45,21 +58,16 @@ var controller = (function(budgetCtrl, UICtrl){
     
     // 5. Display the budget on the UI
      
-    }
-  document.querySelector(DOM.inputBtn).addEventListener('click', ctrlAddItem); 
-        
-    //event gets automatically passes by browser to our event listener
-    document.addEventListener('keypress', function(event) {
-        //which for older browsers
-        if(event.keyCode === 13 || event.which === 13){
-           ctrlAddItem();
-        }
-    });
+}; // ctrlAdditem ()
 
-       return{ 
-        publicTest: function (){
-            return input;
-        }
+return {
+     init: function() {
+      setUpEventListeners();   
+     }   
     }
+
+    
 }) (budgetController, UIController);
 
+
+controller.init();
