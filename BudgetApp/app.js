@@ -100,7 +100,11 @@ var UIController = (function () {
         inputValue: '.add__value',
         inputBtn: '.add__btn',
         incomeContainer: '.income__list',
-        expensesContainer: '.expenses__list'
+        expensesContainer: '.expenses__list',
+        budgetLabel: '.budget__value',
+        incomeLabel: '.budget__income--value',
+        expensesLabel: '.budget__expenses--value',
+        percentageLabel: '.budget__expenses--percentage'
     };
     
     return {
@@ -143,6 +147,20 @@ var UIController = (function () {
             });
             fieldsArr[0].focus(); //select first element
         },
+        
+        displayBudget: function(obj){
+            document.querySelector(DOMstrings.budgetLabel).textContent = obj.budget;
+            document.querySelector(DOMstrings.incomeLabel).textContent = obj.totalInc;
+            document.querySelector(DOMstrings.expensesLabel).textContent = obj.totalExp;
+            
+            
+            if(obj.percentage > 0){
+                document.querySelector(DOMstrings.percentageLabel).textContent = obj.percentage + '%';  
+            } else{
+                document.querySelector(DOMstrings.percentageLabel).textContent = '---';
+            }
+        },
+        
         getDOMstrings: function() {
             return DOMstrings;
         }
@@ -171,8 +189,9 @@ var controller = (function(budgetCtrl, UICtrl){
         budgetCtrl.calculateBudget();// just save it result to our data struc
         // 2. return the budget
         var budget = budgetCtrl.getBudget(); //get the data from our data stru
+        
         // 3. Display the budget on the UI
-        console.log(budget);
+        UICtrl.displayBudget(budget);
     };
     
     
@@ -195,11 +214,20 @@ var controller = (function(budgetCtrl, UICtrl){
         updateBudget();
     } // /if conditon
         
-    }; // ctrlAdditem ()
+    }; // /ctrlAdditem ()
 
     return {
       init: function() {
-       setUpEventListeners();   
+       setUpEventListeners();
+        // after each reload , reset everything to 0
+//          UICtrl.displayBudget({
+//              budget: 0,
+//              totalInc: 0,
+//              totalExp: 0,
+//              percentage: -1
+//          });
+          //or 
+          UICtrl.displayBudget(budgetCtrl.getBudget());
       }
     
     };
