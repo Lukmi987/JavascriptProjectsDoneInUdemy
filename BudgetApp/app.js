@@ -13,7 +13,13 @@ var budgetController = (function() {
         this.value = value;
     };
     
- 
+    var calculateTotal = function(type){
+      var sum = 0;
+        data.allItems[type].forEach(function(currEle){
+           sum += currEle.value; //we called it value 
+        });
+        data.totals[type] = sum;
+    };
     
     var data =  {
         allItems: { 
@@ -23,7 +29,10 @@ var budgetController = (function() {
         totals: {
             exp: 0,
             inc: 0
-        }
+        },
+        budget: 0,
+        percentage: -1 // -1 coz something is not existant at this point
+        
     };
     
     return{
@@ -50,6 +59,30 @@ var budgetController = (function() {
             //Return the new element
             return newItem;// for other modules to have access
         },
+        
+        calculateBudget: function() {
+            //calculate total income and expenses
+            calculateTotal('exp');
+            calculateTotal('inc');
+            //Calcul the budget: income - expenses
+            data.budget = data.totals.inc - data.totals.exp;
+            
+            //Calcul the percentage of income that we spent
+            if(data.totals.inc > 0){ 
+            data.percentage = Math.round((data.totals.exp / data.totals.inc) *  100);
+            }else {
+                data.percentage = -1; //Nan
+            }
+        },
+        
+        getBudget: function(){
+          return {
+              budget: data.budget,
+              totalInc: data.totals.inc,
+              totalExp: data.totals.exp,
+              percentage: data.percentage
+          };  
+        },
     testing: function(){
         console.log(data);
     }
@@ -75,7 +108,7 @@ var UIController = (function () {
             return {
         type: document.querySelector(DOMstrings.inputType).value,
         description: document.querySelector(DOMstrings.inputDescription).value,
-        value: document.querySelector(DOMstrings.inputValue).value
+        value: parseFloat(document.querySelector(DOMstrings.inputValue).value)
             };
         },
         
@@ -99,6 +132,17 @@ var UIController = (function () {
         document.querySelector(element).insertAdjacentHTML('beforeend', newHtml); // it will be append it as a child of income__list and expe.
         },    
         
+        clearFields: function() {
+            var fields, fieldsArr;
+            fields = document.querySelectorAll(DOMstrings.inputDescription + ',' + DOMstrings.inputValue) //querySelectorAll returns list, we want array , we have to convert it
+            
+            fieldsArr = Array.prototype.slice.call(fields); // slice() is a method of array proto propert, we have to do a trick to use it on the list, we use call() and set this variable to fields,NodeList objects have the length property, and we can iterate through them. That's why it's possible to call the slice() method on them.However, NodeLists don't inherit from the Array.prototype
+            
+            fieldsArr.forEach(function(current, index, array){//clear our fiel 
+                current.value =""; //forEach() calls a provided callback function once for each element in an array                          
+            });
+            fieldsArr[0].focus(); //select first element
+        },
         getDOMstrings: function() {
             return DOMstrings;
         }
@@ -122,19 +166,35 @@ var controller = (function(budgetCtrl, UICtrl){
      });
     } // setUpEventListeners()
     
+    var updateBudget = function(){
+        //1.Calculate the budget 
+        budgetCtrl.calculateBudget();// just save it result to our data struc
+        // 2. return the budget
+        var budget = budgetCtrl.getBudget(); //get the data from our data stru
+        // 3. Display the budget on the UI
+        console.log(budget);
+    };
+    
+    
     var ctrlAddItem = function(){         
         var input, newItem;
         //1. Get the field input data
         input = UICtrl.getInput();
+        
+        // only happens if there is some input
+    if(input.description !== ""  && !isNaN(input.value) && input.value > 0){
 
         //2. Add the item to the budget  controller
         newItem = budgetCtrl.addItem(input.type, input.description, input.value);
         // 3. Add the item to the UI
         UICtrl.addListItem(newItem, input.type);
-        // 4. Calculate the budget 
+        // 4. Clear fields
+        UICtrl.clearFields();
 
-        // 5. Display the budget on the UI
-
+        //5 Claculate and update budget
+        updateBudget();
+    } // /if conditon
+        
     }; // ctrlAdditem ()
 
     return {
