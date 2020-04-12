@@ -60,6 +60,22 @@ var budgetController = (function() {
             return newItem;// for other modules to have access
         },
         
+        deleteItem: function(type, id) {
+            var ids, index;
+            // ids = [1 2 4 6 8]
+            // we have to loop through our elements coz ids don't have to match their  indexes coz we can delete items, map returns new array
+            ids = data.allItems[type].map(function(current){
+                return current.id; // returns all ids to new array                
+            });
+            
+            index = ids.indexOf(id);// return index number of the element
+            
+            if(index !== -1){
+                //The splice() method adds/removes items to/from an array, and returns the removed item(s)
+                data.allItems[type].splice(index, 1);
+            }
+        },
+        
         calculateBudget: function() {
             //calculate total income and expenses
             calculateTotal('exp');
@@ -85,7 +101,7 @@ var budgetController = (function() {
         },
     testing: function(){
         console.log(data);
-    }
+     }
     };
     
 }) ();
@@ -217,23 +233,26 @@ var controller = (function(budgetCtrl, UICtrl){
 
         //5 Claculate and update budget
         updateBudget();
+              budgetCtrl.testing();
        } // /if conditon
         
     }; // /ctrlAdditem ()
     
     //the callbeck func of addEventListenr has alwasys acces to event obj, in Event deleg an event  bubbles up and then we can know where it was first fired, by looking at the target property of the event
    var ctrlDeleteItem = function (event){
-      var itemID, splitID;
+      var itemID, splitID,type,ID;
        //DOM traversing move up, we retrieve our unique id of our item
        itemID = event.target.parentNode.parentNode.parentNode.parentNode.id;
        
        if(itemID){
-           splitID = item.split('-');
+           splitID = itemID.split('-');
+           type= splitID[0];
+           ID = parseInt(splitID[1]);
            
            //1. Delet the item from the data structure
-           
+           budgetCtrl.deleteItem(type, ID);
            //2. Delete the item from the UI
-           
+         
            //3. Update and show the new budget
        }
    };    
