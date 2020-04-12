@@ -40,7 +40,7 @@ var budgetController = (function() {
             var newItem,ID;
             
             //(Create new ID!!)Select the last element + 1 whe will  be new one stored
-          if(data.allItems[type].length > 0){ 
+          if(data.allItems[type].length > 0){
              ID = data.allItems[type][data.allItems[type].length -1].id + 1;
             }else {
                 ID =0;
@@ -153,6 +153,11 @@ var UIController = (function () {
         document.querySelector(element).insertAdjacentHTML('beforeend', newHtml); // it will be append it as a child of income__list and expe.
         },    
         
+        deleteListItem: function(selectorID){
+            var el = document.getElementById(selectorID);
+            el.parentNode.removeChild(el);// we can only remove a child 
+        },
+        
         clearFields: function() {
             var fields, fieldsArr;
             fields = document.querySelectorAll(DOMstrings.inputDescription + ',' + DOMstrings.inputValue) //querySelectorAll returns list, we want array , we have to convert it
@@ -252,8 +257,9 @@ var controller = (function(budgetCtrl, UICtrl){
            //1. Delet the item from the data structure
            budgetCtrl.deleteItem(type, ID);
            //2. Delete the item from the UI
-         
+            UICtrl.deleteListItem(itemID);
            //3. Update and show the new budget
+           updateBudget();//we reuse the func
        }
    };    
 
