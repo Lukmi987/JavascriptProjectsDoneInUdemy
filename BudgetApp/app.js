@@ -180,6 +180,13 @@ var UIController = (function () {
             
            return (type === 'exp' ? '-' : '+') + ' ' + int + '.' + dec; 
         };
+    
+    var nodeListForEach = function(list, callback){
+        for (var i = 0;  i < list.length; i++){
+        //list[i].textContent = percentages[i] + '%';
+         callback(list[i], i); //each iterati callback func gets called
+        }
+    };
           
     
     return {
@@ -249,13 +256,7 @@ var UIController = (function () {
             //this returns nodelist
             var fields = document.querySelectorAll(DOMstrings.expensesPercLabel);
             console.log(fields);
-            var nodeListForEach = function(list, callback){
-                for (var i = 0;  i < list.length; i++){
-                    //list[i].textContent = percentages[i] + '%';
 
-                    callback(list[i], i); //each iterati callback func gets called
-                }
-            };
             
             //current we pass list[] , and index i
             nodeListForEach(fields, function(current, index){
@@ -275,6 +276,16 @@ var UIController = (function () {
              month = now.toLocaleString('default', { month: 'long' }); 
             year = now.getFullYear();
             document.querySelector(DOMstrings.dateLabel).textContent = month + ' ' + year;
+        },
+        
+        changeType: function(){
+           var fields = document.querySelectorAll(DOMstrings.inputType + ',' + DOMstrings.inputDescription + ',' + DOMstrings.inputValue); 
+            //index number we don't need, we want to add red focus class on curre element
+            nodeListForEach(fields, function(cur){
+                cur.classList.toggle('red-focus');
+            });
+            
+            document.querySelector(DOMstrings.inputBtn).classList.toggle('red');
         },
         
         getDOMstrings: function() {
@@ -300,7 +311,9 @@ var controller = (function(budgetCtrl, UICtrl){
      });
  
      //Select the parent element for all our items we want to delete   
-    document.querySelector(DOM.container).addEventListener('click',ctrlDeleteItem); 
+    document.querySelector(DOM.container).addEventListener('click',ctrlDeleteItem);
+        
+    document.querySelector(DOM.inputType).addEventListener('change',UICtrl.changeType);    
         
     }; // setUpEventListeners()
     
@@ -377,7 +390,7 @@ var controller = (function(budgetCtrl, UICtrl){
     return {
       init: function() {
           UICtrl.displayMonth();
-       setUpEventListeners();
+            setUpEventListeners();
         // after each reload , reset everything to 0
 //          UICtrl.displayBudget({
 //              budget: 0,
