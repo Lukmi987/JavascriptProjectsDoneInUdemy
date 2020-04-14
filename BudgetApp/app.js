@@ -152,7 +152,8 @@ var UIController = (function () {
         expensesLabel: '.budget__expenses--value',
         percentageLabel: '.budget__expenses--percentage',
         container: '.container',
-        expensesPercLabel: '.item__percentage'
+        expensesPercLabel: '.item__percentage',
+        dateLabel: '.budget__title--month'
     };
     
     //make it private
@@ -267,6 +268,14 @@ var UIController = (function () {
         
         },
         
+        //using date object constructor
+        displayMonth: function(){
+            var now, month,year;
+          var now = new Date(); // if we do not pass anything it returns current d 
+             month = now.toLocaleString('default', { month: 'long' }); 
+            year = now.getFullYear();
+            document.querySelector(DOMstrings.dateLabel).textContent = month + ' ' + year;
+        },
         
         getDOMstrings: function() {
             return DOMstrings;
@@ -367,6 +376,7 @@ var controller = (function(budgetCtrl, UICtrl){
 
     return {
       init: function() {
+          UICtrl.displayMonth();
        setUpEventListeners();
         // after each reload , reset everything to 0
 //          UICtrl.displayBudget({
