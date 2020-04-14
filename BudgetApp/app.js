@@ -130,7 +130,7 @@ var budgetController = (function() {
           };  
         },
     testing: function(){
-        console.log(data);
+        //console.log(data);
      }
     };
     
@@ -151,7 +151,8 @@ var UIController = (function () {
         incomeLabel: '.budget__income--value',
         expensesLabel: '.budget__expenses--value',
         percentageLabel: '.budget__expenses--percentage',
-        container: '.container'
+        container: '.container',
+        expensesPercLabel: '.item__percentage'
     };
     
     return {
@@ -213,6 +214,30 @@ var UIController = (function () {
             }
         },
         
+        displayPercentages: function(percentages){
+          //we do not know how many exp item will be on the list, so we can not use querySelector only selects first one
+            //this returns nodelist
+            var fields = document.querySelectorAll(DOMstrings.expensesPercLabel);
+            console.log(fields);
+            var nodeListForEach = function(list, callback){
+                for (var i = 0;  i < list.length; i++){
+                    //list[i].textContent = percentages[i] + '%';
+
+                    callback(list[i], i); //each iterati callback func gets called
+                }
+            };
+            
+            //current we pass list[] , and index i
+            nodeListForEach(fields, function(current, index){
+                if(percentages[index] > 0){ // this code get called each iteration in our callback func
+                current.textContent = percentages[index] + '%';
+                } else{
+                    current.textContent = '---';
+                }
+            });
+        
+        },
+        
         getDOMstrings: function() {
             return DOMstrings;
         }
@@ -258,6 +283,7 @@ var controller = (function(budgetCtrl, UICtrl){
         var percentages = budgetCtrl.getPercentages();
         //3.Update the UI with the new percentages
         console.log(percentages);
+        UICtrl.displayPercentages(percentages);
     };
     
     
