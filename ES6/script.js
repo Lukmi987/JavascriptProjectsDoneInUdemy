@@ -152,29 +152,63 @@ console.log(ages6);
 //    
 //ES6    
 //ES6 solution for this keyword arrow func instead of anonymous fun
-const box5 = {
-    color: 'green',
-    position: 1,
-    clickMe: function() { //if we  have  more then one argument we have to specify ()
-    document.querySelector('.green').addEventListener('click', () => { //good it points to clickMe func
-           var str = 'this is a box' + this.color;
-        alert(str);
-        });
-    }    
-}
-box5.clickMe();
+//const box5 = {
+//    color: 'green',
+//    position: 1,
+//    clickMe: function() { //if we  have  more then one argument we have to specify ()
+//    document.querySelector('.green').addEventListener('click', () => { //good it points to clickMe func
+//           var str = 'this is a box' + this.color;
+//        alert(str);
+//        });
+//    }    
+//}
+//box5.clickMe();
+//
+//
+//!!!!!!!!!!!!!! now it is not going to work  coz it points to global object of this keyword
+//const box5 = {
+//    color: 'green',
+//    position: 1,
+//    clickMe: () => { //if we  have  more then one argument we have to specify ()
+//    document.querySelector('.green').addEventListener('click', () => {
+//           var str = 'this is a box' + this.color;
+//        alert(str);
+//        });
+//    }    
+//}
 
 
-!!!!!!!!!!!!!! now it is not going to work  coz it points to global object of this keyword
-const box5 = {
-    color: 'green',
-    position: 1,
-    clickMe: () => { //if we  have  more then one argument we have to specify ()
-    document.querySelector('.green').addEventListener('click', () => {
-           var str = 'this is a box' + this.color;
-        alert(str);
-        });
-    }    
+//ES5
+
+//function Person(name) {
+//    this.name = name;
+//}
+//
+//Person.prototype.myFriends =
+//    fucntion(friends){
+//    var arr = friends.map(function(el){
+//       return this.name + ' is friends with' + el; 
+//    }.bind(this)); // now it points Person object
+//    console.log(arr);
+//}
+//
+//var friends = ['Bob', 'jane', 'Mark'];
+//new Person('John').myFriends(friends);
+//
+////////////////////////////////////////////////////
+function Person(name) {
+    this.name = name;
 }
+
+Person.prototype.myFriends =
+    function(friends){    
+    var arr = friends.map(el => 
+        `${this.name} is friends with' ${el}`); 
+     
+    console.log(arr);
+};
+
+var friends = ['Bob', 'jane', 'Mark'];
+new Person('Mike').myFriends(friends);
 
                                                              
