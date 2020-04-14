@@ -138,4 +138,43 @@ console.log(ages6);
 */
 
 
+//ES5
+//this keyword is not going to work, in this case it points to global object
+//var box5 = {
+//    color: 'green',
+//    position: 1,
+//    clickMe: function() {
+//    document.querySelector('.green.').addEventListener('click',function(){
+//           var str = 'this is a box' + this.color;
+//        });
+//                                                                             
+//}
+//    
+//ES6    
+//ES6 solution for this keyword arrow func instead of anonymous fun
+const box5 = {
+    color: 'green',
+    position: 1,
+    clickMe: function() { //if we  have  more then one argument we have to specify ()
+    document.querySelector('.green').addEventListener('click', () => { //good it points to clickMe func
+           var str = 'this is a box' + this.color;
+        alert(str);
+        });
+    }    
+}
+box5.clickMe();
 
+
+!!!!!!!!!!!!!! now it is not going to work  coz it points to global object of this keyword
+const box5 = {
+    color: 'green',
+    position: 1,
+    clickMe: () => { //if we  have  more then one argument we have to specify ()
+    document.querySelector('.green').addEventListener('click', () => {
+           var str = 'this is a box' + this.color;
+        alert(str);
+        });
+    }    
+}
+
+                                                             
