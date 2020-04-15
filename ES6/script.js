@@ -261,12 +261,12 @@ console.log(retirement);
 //Lecture Arrays
 
 
-const boxes = document.querySelectorAll('.box'); //returns a nodeList
-console.log(boxes);
+//const boxes = document.querySelectorAll('.box'); //returns a nodeList
+//console.log(boxes);
 //ES5
 
 ///With call(), an object can use a method belonging to another object.
-var boxesArr = Array.prototype.slice.call(boxes);
+//var boxesArr = Array.prototype.slice.call(boxes);
 //boxesArr.forEach(function(cur){
 //    cur.style.background = 'dodgerblue';
 //});
@@ -319,7 +319,7 @@ ages.findIndex((cur => cur >= 18));
 console.log(ages.find(cur => cur >=18));
 
 */
-
+/*
 /////////////////////////////////
 // Lecture: Spread operator
 
@@ -351,8 +351,38 @@ const all = [h, ..boxes];
 //nodelist to array
 Array.from(all).forEach( cur => cur.style.color = 'purple');
 
+*/
+
+////////////////////////////////
+// Lecture: Rest parameters
+
+//ES5
+//function isFullAge(){
+//    //console.log(arguments);
+//    var argsArr = Array.prototype.slice.call(arguments);
+//    argsArr.forEach(function(cur){
+//       console.log((2016 - cur) >= 18); 
+//    });
+//}
+
+//isFullAge(1990,1999,1996);
+//isFullAge(1990,1999,1996, 2016);
+
+//ES6
+//function isFullAge(...years){ //automat transform them into array
+//        years.forEach(cur => console.log((2016 - cur) >= 18));
+//}
+//    
+//isFullAge(1999,1996,2000);
+
+//The spread operator is used in function call while the Rest Operator is used in func decleration to accept arbitrary number of param
 
 
+// to use the first argument as limit
+function isFullAge(limit,...years){ //automat transform them into array
+        years.forEach(cur => console.log((2016 - cur) >= limit));
+}
+    
+isFullAge(30,1999,1996,2000);
 
 
-                                                             
