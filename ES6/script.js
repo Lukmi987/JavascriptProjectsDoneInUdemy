@@ -404,15 +404,61 @@ Array.from(all).forEach( cur => cur.style.color = 'purple');
 
 //ES6
 
-function SmithPerson(firstName, yearOfBirth, lastName = 'Smith', nationality = 'american'){
-    
-     this.firstName = firstName;
-    this.lastName = lastName;
-    this.yearOfBirth = yearOfBirth;
-    this.nationality = nationality;
+//function SmithPerson(firstName, yearOfBirth, lastName = 'Smith', nationality = 'american'){
+//    
+//     this.firstName = firstName;
+//    this.lastName = lastName;
+//    this.yearOfBirth = yearOfBirth;
+//    this.nationality = nationality;
+//}
+//
+//var emily = new SmithPerson('emily',1983, 'Diaz', 'Spanish');
+//
+
+//////////////////////////////////////////////
+//Lecture: Maps
+
+const question = new Map();
+question.set('question','What is the official name of latest JS version?');
+
+question.set(1,'ES5');
+question.set(2, 'ES6');
+question.set(3, 'Java');
+question.set('correct',2);
+question.set(true, 'Correct answer');
+question.set(false, 'Wrond answ!!!');
+
+// to retrieve 
+console.log(question.get('question'));
+console.log(question.size); //the length of the map
+//if there is a key we can delte the element
+if(question.has(3)){ 
+//question.delete(3);
+console.log('Answer 3');
 }
 
-var emily = new SmithPerson('emily',1983, 'Diaz', 'Spanish');
+//to delete evrything
+//question.clear();
 
 
+//we can loop through them
+//question.forEach((key, value) =>                
+// console.log(`This is ${key}, and it's set to ${value}`)
+//);
 
+//destructuring store keys and values into 2 seperate variables
+//for(let [key, value] of 
+//    question.entries()){ // returns all key value pair of map question
+//     console.log(`This is ${key}, and it's set to ${value}`);
+//}
+
+
+//for (let [key, value] of question.entries()) {
+//    if(typeof(key) === 'number'){
+//        console.log(`Answer ${key} : ${value}`)
+//    }
+//}
+
+const answ = parseInt(prompt('Write the correct answer'));
+
+console.log(question.get(answ === question.get('correct')));
