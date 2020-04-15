@@ -180,6 +180,10 @@ console.log(ages6);
 
 //ES5
 
+//By default, the 'this' inside callbacks passed to event listeners, refers to the element, on which the event was captured. When you bind a different 'this', the original value is lost.
+//
+//With self there is no problem because there are two separate variables - original this and self.
+
 //function Person(name) {
 //    this.name = name;
 //}
@@ -196,19 +200,124 @@ console.log(ages6);
 //new Person('John').myFriends(friends);
 //
 ////////////////////////////////////////////////////
-function Person(name) {
-    this.name = name;
-}
+//function Person(name) {
+//    this.name = name;
+//}
+//
+//Person.prototype.myFriends =
+//    function(friends){    
+//    var arr = friends.map(el => 
+//        `${this.name} is friends with' ${el}`); 
+//     
+//    console.log(arr);
+//};
+//
+//var friends = ['Bob', 'jane', 'Mark'];
+//new Person('Mike').myFriends(friends);
+/////////////////////////////////////////////////////////////////////
 
-Person.prototype.myFriends =
-    function(friends){    
-    var arr = friends.map(el => 
-        `${this.name} is friends with' ${el}`); 
-     
-    console.log(arr);
+//Lecutre: Destructuring
+
+
+/*
+// ES5
+var john = ['John', 26];
+//var name = john[0];
+//var age = john[1];
+
+
+// ES6
+const [name, age] = ['John', 26];
+console.log(name);
+console.log(age);
+
+const obj = {
+    firstName: 'John',
+    lastName: 'Smith'
 };
 
-var friends = ['Bob', 'jane', 'Mark'];
-new Person('Mike').myFriends(friends);
+const {firstName, lastName} = obj;
+console.log(firstName);
+console.log(lastName);
+
+const {firstName: a, lastName: b} = obj;
+console.log(a);
+console.log(b);
+
+
+
+function calcAgeRetirement(year){
+    const age = new Date().getFullYear() - year;
+    return [age, 65 - age];
+}
+
+
+const [age2, retirement]= calcAgeRetirement(1991);
+console.log(age2);
+console.log(retirement);
+*/
+
+////////////////////// 
+//Lecture Arrays
+
+
+const boxes = document.querySelectorAll('.box'); //returns a nodeList
+console.log(boxes);
+//ES5
+
+///With call(), an object can use a method belonging to another object.
+var boxesArr = Array.prototype.slice.call(boxes);
+//boxesArr.forEach(function(cur){
+//    cur.style.background = 'dodgerblue';
+//});
+//console.log(boxesArr);
+
+//ES6
+//from() transfer nodeList to array
+//const boxesArr6 = Array.from(boxes);
+
+//Array.from(boxes).forEach( cur => cur.style.backgroundColor = 'dodgerblue');
+
+
+//ES5
+/*
+for(var i = 0; i < boxesArr.length; i++){
+   if(boxesArr[i].className === 'box blue'){
+       continue; //will skip the iteration
+   }
+    
+    boxesArr[i].textContent = 'I chanched to blue';
+}
+*/
+
+//ES6
+for(const cur of boxesArr){
+    if(cur.className.includes('blue')){
+        continue;
+    }
+    cur.textContent = 'I changed to blue';
+}
+
+
+//ES5
+var ages = [12,17,8,21,14,11,25,26];
+var full = ages.map(function(cur){
+    return cur >= 18;
+});
+console.log(full);
+
+console.log(full.indexOf(true));
+console.log(ages[full.indexOf(true)]);
+
+
+//ES6
+find index of the elelement that is greater than 18
+ages.findIndex((cur => cur >= 18));
+
+//to find the value that is greater than 18
+console.log(ages.find(cur => cur >=18));
+
+
+
 
                                                              
