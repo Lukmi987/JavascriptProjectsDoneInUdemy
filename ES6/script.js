@@ -379,10 +379,40 @@ Array.from(all).forEach( cur => cur.style.color = 'purple');
 
 
 // to use the first argument as limit
-function isFullAge(limit,...years){ //automat transform them into array
-        years.forEach(cur => console.log((2016 - cur) >= limit));
-}
+//function isFullAge(limit,...years){ //automat transform them into array
+//        years.forEach(cur => console.log((2016 - cur) >= limit));
+//}
+//    
+//isFullAge(30,1999,1996,2000);
+//
+
+/////////////////////////////////////
+// Lecture: Default parameters
+
+//ES5
+//function SmithPerson(firstName, yearOfBirth, lastName, nationality){
+//    
+//    lastName === undefined ? lastName = 'Smith' : lastName = lastName;
+//    
+//    this.firstName = firstName;
+//    this.lastName = lastName;
+//    this.yearOfBirth = yearOfBirth;
+//    this.nationality = nationality;
+//}
+//
+//var john = new SmithPerson('John',1990);
+
+//ES6
+
+function SmithPerson(firstName, yearOfBirth, lastName = 'Smith', nationality = 'american'){
     
-isFullAge(30,1999,1996,2000);
+     this.firstName = firstName;
+    this.lastName = lastName;
+    this.yearOfBirth = yearOfBirth;
+    this.nationality = nationality;
+}
+
+var emily = new SmithPerson('emily',1983, 'Diaz', 'Spanish');
+
 
 
