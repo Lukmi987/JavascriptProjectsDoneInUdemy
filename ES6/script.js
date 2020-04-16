@@ -418,47 +418,168 @@ Array.from(all).forEach( cur => cur.style.color = 'purple');
 //////////////////////////////////////////////
 //Lecture: Maps
 
-const question = new Map();
-question.set('question','What is the official name of latest JS version?');
+//const question = new Map();
+//question.set('question','What is the official name of latest JS version?');
+//
+//question.set(1,'ES5');
+//question.set(2, 'ES6');
+//question.set(3, 'Java');
+//question.set('correct',2);
+//question.set(true, 'Correct answer');
+//question.set(false, 'Wrond answ!!!');
+//
+//// to retrieve 
+//console.log(question.get('question'));
+//console.log(question.size); //the length of the map
+////if there is a key we can delte the element
+//if(question.has(3)){ 
+////question.delete(3);
+//console.log('Answer 3');
+//}
+//
+////to delete evrything
+////question.clear();
+//
+//
+////we can loop through them
+////question.forEach((key, value) =>                
+//// console.log(`This is ${key}, and it's set to ${value}`)
+////);
+//
+////destructuring store keys and values into 2 seperate variables
+////for(let [key, value] of 
+////    question.entries()){ // returns all key value pair of map question
+////     console.log(`This is ${key}, and it's set to ${value}`);
+////}
+//
+//
+////for (let [key, value] of question.entries()) {
+////    if(typeof(key) === 'number'){
+////        console.log(`Answer ${key} : ${value}`)
+////    }
+////}
+//
+//const answ = parseInt(prompt('Write the correct answer'));
+//
+//console.log(question.get(answ === question.get('correct')));
 
-question.set(1,'ES5');
-question.set(2, 'ES6');
-question.set(3, 'Java');
-question.set('correct',2);
-question.set(true, 'Correct answer');
-question.set(false, 'Wrond answ!!!');
+///////////////////////////////////////////////////////////////
 
-// to retrieve 
-console.log(question.get('question'));
-console.log(question.size); //the length of the map
-//if there is a key we can delte the element
-if(question.has(3)){ 
-//question.delete(3);
-console.log('Answer 3');
+///Lecture Classes
+//
+////ES5
+//var Person5 = function(name,year,job){
+//    this.name = name;
+//    this.year = year;
+//    this.job = job;
+//}
+//
+//Person5.prototype.calcAge = function(){
+//    var age = new Date().getFullYear() - this.year;
+//    console.log(age);
+//}
+//
+//var John = new Person5('John',1990,'teacher');
+//
+////ES6
+//class Person6 {
+//    constructor (name,year,job){
+//        this.name = name;
+//        this.year = year;
+//        this.job = job;
+//    }
+//    
+//    calculateAge(){
+//    var age = new Date().getFullYear() - this.year;
+//    console.log(age);
+//    }
+//    
+//    static greeting() {
+//        console.log('Hey there');
+//    }
+//}   
+//
+////instance of our class
+//const john6 = new Person6('John', 1990, 'teacher');
+
+//ES6 class logic is behind the scene, converted to the exact same thing as we wrote in the old way(just synthetic sugar)
+
+// Drawback that they basically hide the object-oriented nature of inheritance in JavaScript
+
+
+//Static methods are attached to the class but not inherited by class instances
+
+//We can attach methods to an object, 
+
+//The class Definiton is under the hood a function definition and so, it’s also an object, So we can attach methods to an object
+
+/////////////////////////////////////////////////////////////
+//Subclasses
+
+////ES5
+//var Person5 = function(name,year,job){
+//    this.name = name;
+//    this.year = year;
+//    this.job = job;
+//}
+//
+//Person5.prototype.calcAge = function(){
+//    var age = new Date().getFullYear() - this.year;
+//    console.log(age);
+//}
+//
+//
+//
+////Athlete 5 subclass and Person5 is superclass
+//var Athlete5 = function(name, year, job, olympicGames, medals){
+//    Person5.call(this, name, year,job); // calling our superClass
+//    this.olympicGames = olympicGames;
+//    this.medals = medals;
+//}
+//
+//
+////to connect(set) the function constructor of Person5 prototype property
+//Athlete5.prototype = Object.create(Person5.prototype);
+//
+//Athlete5.prototype.wonMedal = function () {
+//    this.medals++;
+//    console.log(this.medals);
+//}
+//
+//
+//var johnAthlete5 = new Athlete5('John', 1990, 'swimmer', 3, 10);
+//johnAthlete5.calcAge();
+//johnAthlete5.wonMedal();
+
+
+//ES6
+
+class Person6 {
+    constructor (name,year,job){
+        this.name = name;
+        this.year = year;
+        this.job = job;
+    }
+    
+    calculateAge(){
+    var age = new Date().getFullYear() - this.year;
+    console.log(age);
+    }
 }
 
-//to delete evrything
-//question.clear();
+class Athlete6 extends Person6 {
+    constructor(name, year,job, olympicGames, medals){
+        super(name, year, job);//calls the super Class
+        this.olympicGames = olympicGames;
+        this.medals = medals;
+    }
+    
+    wonMedal(){
+        this.medals++
+        console.log(this.medals);
+    }
+}
 
-
-//we can loop through them
-//question.forEach((key, value) =>                
-// console.log(`This is ${key}, and it's set to ${value}`)
-//);
-
-//destructuring store keys and values into 2 seperate variables
-//for(let [key, value] of 
-//    question.entries()){ // returns all key value pair of map question
-//     console.log(`This is ${key}, and it's set to ${value}`);
-//}
-
-
-//for (let [key, value] of question.entries()) {
-//    if(typeof(key) === 'number'){
-//        console.log(`Answer ${key} : ${value}`)
-//    }
-//}
-
-const answ = parseInt(prompt('Write the correct answer'));
-
-console.log(question.get(answ === question.get('correct')));
+const johnAthlete6 = new Athlete6('John', 1990, 'swimmer', 3, 10);
+johnAthlete6.wonMedal();
+johnAthlete6.calculateAge();
