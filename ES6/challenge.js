@@ -50,87 +50,81 @@ class Park extends Element{
 
 
 class Street extends Element{
-    constructor(name, buildYear, length){ 
+    constructor(name, buildYear, length, size){ 
     super(name,buildYear);
     this.length = length;
+    this.size = size;
     } 
-
-}
-
-var park1 = new Park('Luzanky',1990,500,100);
-var park2 = new Park('Grand Canoyon',1900,5000,300);
-var park3 = new Park('Zion',1800,800,30);
-
-//1. Tree density of each park in the town
-
-console.log(`------Parks Report ------`);
-park1.treeDensity();
-park2.treeDensity(); 
-park3.treeDensity();
-
-
-
-//2. Average age of town's parks
-const parks = new Map();
-parks.set(1, park1.ageOfPark());
-parks.set(2, park2.ageOfPark());
-parks.set(3, park3.ageOfPark());
-//console.log(parks.size);
-
-
-let sum =0;
-parks.forEach((key) =>  sum += key ); //count the sum of the age of parks
-const averageAgeOfParks = sum / parks.size;
-console.log(`Average age of our parks ${averageAgeOfParks}`);
-
-
-console.log(park1.numberTree);
-
-//3 Park which has more than 1000 trees
-parks.set(park1.name, park1.numberTree);
-parks.set(park2.name, park2.numberTree);
-parks.set(park3.name, park3.numberTree);
-
-for(let[key,value] of parks.entries()){
     
-    if( value >= 1000){
-        console.log(`The ${key} has more than 1000 trees precisely ${value}`);
+    classifyStreet() {
+        const classification = new Map();
+        classification.set(1,'tiny');
+        classification.set(2,'small');
+        classification.set(3, 'normal');
+        classification.set(4, 'big');
+        classification.set(5, 'huge');
+        console.log(`${this.name} build in ${this.buildYear}, is a ${classification.get(this.size)} street`);
+    
     }
+
 }
 
-//Street Report
-const street1 = new Street('Majakovskeho',1950, 100);
-const street2 = new Street('Dukelska',1960, 200);
-const street3 = new Street('Lidicka',1930, 300);
-const street4 = new Street('Pavlovska',1920, 500);
-const street = new Street(null,1300);
+//const park1 = new Park('Luzanky',1990,0.2,100);
+//const park2 = new Park('Grand Canoyon',1900,0.5,200);
+//const park3 = new Park('Zion',1800,0.8,3000);
 
-console.log(`----Street Report----`);
-// 4 total length of the our streets
-
-const streets = new Map();
-streets.set(1,street1.length);
-streets.set(2,street2.length);
-streets.set(3,street3.length);
-streets.set(4,street4.length);
+const allParks = [new Park('Luzanky',1990,100,100),
+                  new Park('Grand Canoyon',1900,1150,200),
+                  new Park('Zion',1800,800,3000)
+                 ];
+const allStreets = [new Street('Majakovskeho',1950, 100,1),
+                    new Street('Dukelska',1960, 200,3),
+                    new Street('Lidicka',1930, 300,5),
+                    new Street('Pavlovska',1920, 500,2)
+                   ];
 
 
-let sumStreet = 0;
-streets.forEach((key) => sumStreet += key);
-const totalLength = sumStreet;
-const averageSize = sumStreet / streets.size;
-console.log(`Total length of our 4 streets is ${totalLength} and average of ${averageSize}`);
 
-//5
-const streetsDef = new Map();
-streetsDef.set('tiny', street1.name);
-streetsDef.set('normal', street2.name);
-streetsDef.set('big', street3.name);
-streetsDef.set('huge', street4.name);
-
-for(let[key,value] of streetsDef.entries()){
+function calc(arr){
+    //reduce to accumulate all elements to single value
+    const sum = arr.reduce((prev,cur, index) => prev + cur, 0);
     
-console.log(`The ${value} street is ${key}`);
+    return [sum, sum / arr.length];   
+}
+
+function reportParks(p){
+   console.log(`------Parks Report ------`); 
+    //Tree density
+    p.forEach( el => el.treeDensity());    
+    
+    //Average age
+    const ages = p.map(el => el.ageOfPark());
+    //using the concept of destructuring
+    const[totalAge, avgAge] = calc(ages);
+    console.log(`Our ${p.length} parks have an average of ${avgAge}`);
+    
+    //Which park has more than 1000 trees
+    //first we get all numbers of our trees into array and then use findIndex on that
+    const i = p.map(el => el.numberTree).findIndex(el => el >= 1000);
+    
+    console.log(` ${p[i].name} has more than 1000 trees.`);
 
 }
+
+function reportStreets(s){
+    console.log(`------Streets Report ------`); 
+    
+    //Total and average length of the town's streets
+    const [totalLength, avgLength] = calc(s.map(el => el.length));
+    console.log(`Our ${s.length} streets have a total length ${totalLength} km, with an average of ${avgLength}`);
+    
+    //Classify sizes
+    s.forEach(el => el.classifyStreet());
+
+}
+
+console.log(typeof(allParks));
+
+reportParks(allParks);
+reportStreets(allStreets);
 
