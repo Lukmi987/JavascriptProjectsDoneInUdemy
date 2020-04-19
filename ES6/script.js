@@ -516,28 +516,28 @@ Array.from(all).forEach( cur => cur.style.color = 'purple');
 /////////////////////////////////////////////////////////////
 //Subclasses
 
-////ES5
-//var Person5 = function(name,year,job){
-//    this.name = name;
-//    this.year = year;
-//    this.job = job;
-//}
-//
-//Person5.prototype.calcAge = function(){
-//    var age = new Date().getFullYear() - this.year;
-//    console.log(age);
-//}
-//
-//
-//
-////Athlete 5 subclass and Person5 is superclass
-//var Athlete5 = function(name, year, job, olympicGames, medals){
-//    Person5.call(this, name, year,job); // calling our superClass
-//    this.olympicGames = olympicGames;
-//    this.medals = medals;
-//}
-//
-//
+//ES5
+var Person5 = function(name,year,job){
+    this.name = name;
+    this.year = year;
+    this.job = job;
+}
+
+Person5.prototype.calcAge = function(){
+    var age = new Date().getFullYear() - this.year;
+    console.log(age);
+}
+
+
+
+//Athlete 5 subclass and Person5 is superclass
+var Athlete5 = function(name, year, job, olympicGames, medals){
+    Person5.call(this, name, year,job); // calling our superClass
+    this.olympicGames = olympicGames;
+    this.medals = medals;
+}
+
+
 ////to connect(set) the function constructor of Person5 prototype property
 //Athlete5.prototype = Object.create(Person5.prototype);
 //
