@@ -41,7 +41,7 @@
 
 
             //we either call resolve func is success or reject func, setTimeout will always be success. , so we can just call resolve
-      const getIdDs = new Promise((resolve, reject) => { // we pass a func called executer, it will be immediate called once the promise is created
+      const getIDs = new Promise((resolve, reject) => { // we pass a func called executer, it will be immediate called once the promise is created
             setTimeout( () => {
                 resolve([523,883,432,974]);
                 // after timer finishes we say that promise is succ. and that we want to return the data
@@ -79,22 +79,38 @@
         //if promise is successfull , on our promise object we use then method,which is to handle fulfilled prome, then we can handle that
           
           //we consume our promises with the chain of thens
-            getIdDs.then(IDs => { // data from our resolve func 
+            // getIDs.then(IDs => { // data from our resolve func 
+            //     console.log(IDs);
+            //     //our next promise
+            //     return getRecipe(IDs[2]);// this will return promise and next then will handle the result of that promise
+            // })
+            // .then(recip => {
+            //   console.log(recip);  // ** is returned here
+            //   return getRelated('lukas'); // a new promise
+            // })
+            // .then(recipe => {
+            //     console.log(recipe);
+            // })
+            // .catch(error => {
+            //     console.log(error);
+            // });
+
+
+            async function getRecipesAW() {
+                //await will stop the code from executing, at this point until the promise is fulfilled
+                //we wait for this promise here to resolve and assign the value to IDs var
+                const IDs = await getIDs; 
                 console.log(IDs);
-                //our next promise
-                return getRecipe(IDs[2]);// this will return promise and next then will handle the result of that promise
-            })
-            .then(recip => {
-              console.log(recip);  // ** is returned here
-              return getRelated('lukas'); // a new promise
-            })
-            .then(recipe => {
-                console.log(recipe);
-            })
-            .catch(error => {
-                console.log(error);
-            });
-    
+                //our second promise
+               const recepi = await getRecipe(IDs[2]);
+                console.log(recepi);
+                //third Promise
+                const related = await getRelated('Lukas');
+                console.log(related);
+                return recepi;
+            }
+            //automatic. returns a promise with resolved value of recepi and we can use then in to which we pass a callback func where the argument is the resolved value of the promise
+            getRecipesAW().then(result => console.log(`${result}`));
     </script>
 </body>
 </html>
