@@ -109,27 +109,53 @@
             //     console.log(related);
             //     return recepi;
             // }
-            // //automatic. returns a promise with resolved value of recepi and we can use then in to which we pass a callback func where the argument is the resolved value of the promise
+            // // async  func automatic. returns a promise with resolved value of recepi and we can use then in to which we pass a callback func where the argument is the resolved value of the promise
             // getRecipesAW().then(result => console.log(`${result}`));
 
             
-            function getWeather(woeid){ 
-                //fetch gets our data and returns a promise
-                fetch(`https://cors-anywhere.herokuapp.com/https://www.metaweather.com/api/location/${woeid}/`)
-                .then(result => { //fetch AJAX request will be called result here in this callback func
-                    console.log(result); // we convert the body from json to JavaScript 
-                    return result.json(); // returns a promise coz it happens Asyn in the background, it can take some time
-                })
-                .then(data => {
-                    //console.log(data);
-                    const today = data.consolidated_weather[0];
-                    console.log(`Temperatures in ${data.title} stay between ${today.min_temp} and ${today.max_temp}`);
-                })
-                .catch(error => console.log(error));  
+            // function getWeather(woeid){ 
+            //     //fetch gets our data and returns a promise
+            //     fetch(`https://cors-anywhere.herokuapp.com/https://www.metaweather.com/api/location/${woeid}/`)
+            //     .then(result => { //fetch AJAX request will be called result here in this callback func
+            //         console.log(result); // we convert the body from json to JavaScript 
+            //         return result.json(); // returns a promise coz it happens Asyn in the background, it can take some time
+            //     })
+            //     .then(data => {
+            //         //console.log(data);
+            //         const today = data.consolidated_weather[0];
+            //         console.log(`Temperatures in ${data.title} stay between ${today.min_temp} and ${today.max_temp}`);
+            //     })
+            //     .catch(error => console.log(error));  
+            // }
+            // getWeather(2487956);
+            // getWeather(44418);
+
+
+            async function getWeatherAW(woeid){
+
+                try{ 
+                    //code stops here with the await expression coz entire func is running  int he background
+                    const result = await fetch(`https://cors-anywhere.herokuapp.com/https://www.metaweather.com/api/location/${woeid}/`);
+                    const data = await result.json();
+                    const tomorrow = data.consolidated_weather[1];
+                    console.log(`Temperatures tomorrow in ${data.title} stay between  ${tomorrow.min_temp} and ${tomorrow.max_temp} `);
+                    return data;
+                } catch(error) {
+                        alert(error);
+                    }
             }
-            getWeather(2487956);
-            getWeather(44418);
-    
+            //getWeatherAW(2487956);
+            
+            let dataSA; 
+             getWeatherAW(2487956).then( data => {
+                dataSA = data;
+                console.log(data);
+             });
+
+             //!!!!!can not do it like this
+             //let dataSA = getWeatherAW(2487956);
+             //console.log(dataSA);
+            
     </script>
 </body>
 </html>
