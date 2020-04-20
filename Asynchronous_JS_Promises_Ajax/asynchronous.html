@@ -96,21 +96,40 @@
             // });
 
 
-            async function getRecipesAW() {
-                //await will stop the code from executing, at this point until the promise is fulfilled
-                //we wait for this promise here to resolve and assign the value to IDs var
-                const IDs = await getIDs; 
-                console.log(IDs);
-                //our second promise
-               const recepi = await getRecipe(IDs[2]);
-                console.log(recepi);
-                //third Promise
-                const related = await getRelated('Lukas');
-                console.log(related);
-                return recepi;
+            // async function getRecipesAW() {
+            //     //await will stop the code from executing, at this point until the promise is fulfilled
+            //     //we wait for this promise here to resolve and assign the value to IDs var
+            //     const IDs = await getIDs; 
+            //     console.log(IDs);
+            //     //our second promise
+            //    const recepi = await getRecipe(IDs[2]);
+            //     console.log(recepi);
+            //     //third Promise
+            //     const related = await getRelated('Lukas');
+            //     console.log(related);
+            //     return recepi;
+            // }
+            // //automatic. returns a promise with resolved value of recepi and we can use then in to which we pass a callback func where the argument is the resolved value of the promise
+            // getRecipesAW().then(result => console.log(`${result}`));
+
+            
+            function getWeather(woeid){ 
+                //fetch gets our data and returns a promise
+                fetch(`https://cors-anywhere.herokuapp.com/https://www.metaweather.com/api/location/${woeid}/`)
+                .then(result => { //fetch AJAX request will be called result here in this callback func
+                    console.log(result); // we convert the body from json to JavaScript 
+                    return result.json(); // returns a promise coz it happens Asyn in the background, it can take some time
+                })
+                .then(data => {
+                    //console.log(data);
+                    const today = data.consolidated_weather[0];
+                    console.log(`Temperatures in ${data.title} stay between ${today.min_temp} and ${today.max_temp}`);
+                })
+                .catch(error => console.log(error));  
             }
-            //automatic. returns a promise with resolved value of recepi and we can use then in to which we pass a callback func where the argument is the resolved value of the promise
-            getRecipesAW().then(result => console.log(`${result}`));
+            getWeather(2487956);
+            getWeather(44418);
+    
     </script>
 </body>
 </html>
