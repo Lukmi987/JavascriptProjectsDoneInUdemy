@@ -6,6 +6,26 @@ export const clearInput = () => elements.searchInput.value = '';
 export const clearResults = () => elements.searchResList.innerHTML = '';
 
 
+const limitRecipeTitle = (title,limit = 17) => {
+   // a const newTitle we can not really mutate, adding things to an array is not mutating the underlying variable itself, same for objects
+    const newTitle = [];
+    const callbackForReduce = (acc,cur) => { //first parame of reduce is callback with 2 paramaters, accumulator for each iteration of an array, second the current value
+        if (acc + cur.length <= limit) {
+           newTitle.push(cur); //push the curr value to new array if accumu not bigger than 17
+        }
+       // return acc + cur.length;
+    };
+
+    if(title.length > limit) {         
+        title.split('').reduce(callbackForReduce, 0); //second parameter is the initial value
+        
+        //return the result, join opposite of split()
+        return `${newTitle.join(' ')} ...`;
+    }
+    return title;
+}
+
+
 //helper func ,just to print one recepi
 const renderRecipe = recipe => {
     const markup = `
@@ -15,7 +35,7 @@ const renderRecipe = recipe => {
                     <img src="${recipe.image_url}" alt="${recipe.title}">
                 </figure>
                 <div class="results__data">
-                    <h4 class="results__name">${recipe.title}</h4>
+                    <h4 class="results__name">${limitRecipeTitle(recipe.title)}</h4>
                     <p class="results__author">${recipe.publisher}</p>
                 </div>
             </a>

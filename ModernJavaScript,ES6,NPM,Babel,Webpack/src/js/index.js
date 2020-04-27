@@ -10,7 +10,6 @@ import {elements} from './views/base';
 //my central variable
 const state = {};
 
-
 const controlSearch = async () => {
     // 1) Get query from view
     
