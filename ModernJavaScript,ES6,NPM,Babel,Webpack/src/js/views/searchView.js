@@ -13,7 +13,11 @@ const limitRecipeTitle = (title,limit = 17) => {
         if (acc + cur.length <= limit) {
            newTitle.push(cur); //push the curr value to new array if accumu not bigger than 17
         }
-       // return acc + cur.length;
+       /**
+        * To update an accumulator works in reduce func by returning a value,
+        * So the value that we retunr in each iteration of this loop in callback func in reduced method will be the new accumulator
+        */
+        return acc + cur.length;
     };
 
     if(title.length > limit) {         

@@ -1,6 +1,6 @@
 import Search from './models/Search';
 import * as searchView from './views/searchView';
-import {elements} from './views/base';
+import {elements, renderLoader,removeArrow} from './views/base';
 /** Global state of the app
  * -Search object
  * Current recipe object
@@ -21,13 +21,17 @@ const controlSearch = async () => {
         console.log(state.search);
         //3) Prepare UI for results
         searchView.clearInput();
-        searchView.clearResults();
+        searchView.clearResults(); //clear old results
+        renderLoader(elements.searchRes); //put the spinning arrow while we are wainting
+
         //4) Search for recipes
             //we wait until getResults return and only then it continous to step 5
         await state.search.getResults(); //returns a promise evry async func
 
         //5) Render results on UI
-          searchView.renderResults(state.search.result);
+        removeArrow();  
+        searchView.renderResults(state.search.result);
+          
        
     }
 }
