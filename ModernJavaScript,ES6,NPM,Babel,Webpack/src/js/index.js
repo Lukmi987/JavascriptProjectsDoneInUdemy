@@ -45,4 +45,16 @@ elements.searchForm.addEventListener('submit', e =>{
     controlSearch();
 });
 
-
+ 
+/**
+ * Event Delegation
+ * We attach the event listeners to an element that is already there, and then we try to figure out where  the click happened
+*/
+elements.searchResPages.addEventListener('click', e=>{
+    const btn = e.target.closest('.btn-inline'); //we are only intersted in the ones with the class of button inline
+    if (btn){
+        const goToPage = parseInt(btn.dataset.goto, 10);
+        searchView.clearResults();
+        searchView.renderResults(state.search.result,goToPage)
+    }
+});

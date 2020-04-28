@@ -3,7 +3,11 @@ import {elements} from './base';
 export const getInput = () =>  elements.searchInput.value;
 
 export const clearInput = () => elements.searchInput.value = '';
-export const clearResults = () => elements.searchResList.innerHTML = '';
+
+export const clearResults = () => {
+    elements.searchResList.innerHTML = '';
+    elements.searchResPages.innerHTML = '';
+};
 
 
 const limitRecipeTitle = (title,limit = 17) => {
@@ -49,7 +53,47 @@ const renderRecipe = recipe => {
     elements.searchResList.insertAdjacentHTML('beforeend',markup);
 }
 
-// we receives array with recepis now wee need to loop trough them 
-export const renderResults = recipes => {
-    recipes.forEach(renderRecipe);
+
+// type: 'prev' or 'next'
+const createButton = (page,type) => `
+        <button class="btn-inline results__btn--${type}" data-goto=${type === 'prev' ? page -1 : page + 1}>
+        <span>Page ${type === 'prev' ? page -1 : page + 1}</span>
+            <svg class="search__icon">
+                <use href="img/icons.svg#icon-triangle-${type=== 'prev' ? 'left' : 'right'}"></use>
+            </svg>
+            
+        </button>
+`;
+
+//a private func coz we will call it from renderResults 
+const renderButtons = (page, numResults, resPerPage) => {
+//we need to know on which page we are and how many there are total
+    const pages = Math.ceil(numResults / resPerPage);
+
+    let button; //we want to reassign it
+    if(page === 1 && pages > 1) { // if we are on the first and && we must have more than one page to show the button
+        //Only one button to go to the next page
+        console.log(page);
+        button = createButton(page,'next');
+    }else if (page < pages){ // if we are on the middle page
+        //Both buttons
+         button = ` ${createButton(page,'prev')}
+                    ${createButton(page,'next')}`;
+    } else if  (page === pages && pages > 1) {  //if we are on the last page and we results for more than one page
+        //Only one button to the the previous page
+        button = createButton(page,'prev');
+    }
+    elements.searchResPages.insertAdjacentHTML('afterbegin',button);
+};
+
+// we receive array with recipes now we need to loop trough them 
+export const renderResults = (recipes, page = 1, resPerPage = 10) => {
+   // render results of current page
+    const start = (page - 1) * resPerPage; //first round (1-1) * 10, so we starat on 0 index
+    const end = page * resPerPage;
+    //slice second parameter end is until that index but noc included and we want to start on 0 index
+    recipes.slice(start,end).forEach(renderRecipe);
+
+    //render pagination button
+    renderButtons(page,recipes.length, resPerPage);
 }
