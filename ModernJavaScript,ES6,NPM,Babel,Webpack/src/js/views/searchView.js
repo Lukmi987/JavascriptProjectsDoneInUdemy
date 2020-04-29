@@ -24,8 +24,12 @@ const limitRecipeTitle = (title,limit = 17) => {
         return acc + cur.length;
     };
 
-    if(title.length > limit) {         
-        title.split('').reduce(callbackForReduce, 0); //second parameter is the initial value
+    if(title.length > limit) {  
+        
+        /** str = "How are you doing today?";
+         * str.split(" "); ["How", "are", "you", "doing", "today?"]
+         */
+        title.split(' ').reduce(callbackForReduce, 0); //second parameter is the initial value
         
         //return the result, join opposite of split()
         return `${newTitle.join(' ')} ...`;

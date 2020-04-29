@@ -1,6 +1,13 @@
 import Search from './models/Search';
 import * as searchView from './views/searchView';
 import {elements, renderLoader,removeArrow} from './views/base';
+import Recipe from './models/Recipe';
+
+
+
+
+
+////////////////////////////// SEARCH CONTROLLER //////////////////////////////////
 /** Global state of the app
  * -Search object
  * Current recipe object
@@ -48,6 +55,7 @@ elements.searchForm.addEventListener('submit', e =>{
  
 /**
  * Event Delegation
+ * Event delegation allows us to attach a single event listener, to a parent element, that will fire for all descendants matching a selector, whether those descendants exist now or are added in the future
  * We attach the event listeners to an element that is already there, and then we try to figure out where  the click happened
 */
 elements.searchResPages.addEventListener('click', e=>{
@@ -58,3 +66,15 @@ elements.searchResPages.addEventListener('click', e=>{
         searchView.renderResults(state.search.result,goToPage)
     }
 });
+
+
+
+
+/**
+ * RECiPe CONTROLLER
+ */
+
+ const r = new Recipe(47025);
+r.getRecipe();
+console.log(r);
+
