@@ -9,6 +9,14 @@ export const clearResults = () => {
     elements.searchResPages.innerHTML = '';
 };
 
+export const highlightSelected = id => {
+        const   results_link = Array.from(document.querySelectorAll('.results__link'));
+        results_link.forEach(el => {
+            el.classList.remove('results__link--active');
+        });
+    document.querySelector(`a[href="#${id}"]`).classList.add('results__link--active'); // just class name but not the selector
+};
+
 
 const limitRecipeTitle = (title,limit = 17) => {
    // a const newTitle we can not really mutate, adding things to an array is not mutating the underlying variable itself, same for objects

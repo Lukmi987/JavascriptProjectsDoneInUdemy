@@ -1,7 +1,27 @@
 import {elements} from './base';
+import {Fraction} from 'fractional' //for external pack. install by npm we don't have to include the path
 
 export const clearRecipe = () => { 
     elements.recipe.innerHTML = '';
+};
+
+const formatCount = count => {
+    if(count) { //count is defined
+        // count = 2.5 --> 2 1/2
+        // count = 0.5 --> 1/2
+        const [int,dec] = count.toString().split('.').map(el => parseInt(el,10));
+        if(!dec) return count;
+        
+        if(int === 0){
+            const fr = new Fraction(count);
+            return `${fr.numerator}/${fr.denominator}`; //0.5 result 1/2
+        } else {
+            const fr = new Fraction(count - int); //2.5 -2 so 0.5 now we apply same like before
+            return `${int} ${fr.numerator}/${fr.denominator}`;
+        }
+
+    }
+    return '?'; //if undefined  better to returrn ? looks nicer
 };
 
 const createIngredient = ingredient => `
@@ -9,7 +29,7 @@ const createIngredient = ingredient => `
     <svg class="recipe__icon">
         <use href="img/icons.svg#icon-check"></use>
     </svg>
-    <div class="recipe__count">${ingredient.count}</div>
+    <div class="recipe__count">${formatCount(ingredient.count)}</div>
     <div class="recipe__ingredient">
         <span class="recipe__unit">${ingredient.unit}</span>
         ${ingredient.ingredient}

@@ -102,6 +102,9 @@ elements.searchResPages.addEventListener('click', e=>{//button functionality
         recipeView.clearRecipe();
         renderLoader(elements.recipe);//spinnig arrow
 
+        //Highlight selected search item
+         if (state.search) searchView.highlightSelected(id);
+
         //Create a new recipe object based on the Recipe model and save it in our state, same like we did wit the search
         state.recipe = new Recipe(id);
         window.r = state.recipe;//testing
