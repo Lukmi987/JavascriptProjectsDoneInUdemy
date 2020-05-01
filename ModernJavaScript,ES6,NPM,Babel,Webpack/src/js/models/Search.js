@@ -16,7 +16,7 @@ export default class Search {
              * The result property is declared and initialized directly in the getResults() method
              * same as adding a new property to the object: obj.newProp = 'Hello'; */ 
             this.result = res.data.recipes;
-            //console.log(this.result);
+           // console.log(this.result);
         } catch(error){
             alert(error);
         }

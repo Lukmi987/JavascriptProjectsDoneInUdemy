@@ -19,8 +19,8 @@ const state = {};
 
 const controlSearch = async () => {
     // 1) Get query from view  
-    //const query = searchView.getInput();
-    const query = 'pizza';
+    const query = searchView.getInput();
+   // const query = 'pizza';
 
     if(query){
         // 2) New Search object and add to state
@@ -58,14 +58,14 @@ elements.searchForm.addEventListener('submit', e =>{
 
 
 //for TESTING
-window.addEventListener('load', e =>{
-    /** 
-     * whenever we submit a form we prevent reload the page
-     * and call our callback func
-    */
-     e.preventDefault();
-     controlSearch();
- });
+// window.addEventListener('load', e =>{
+//     /** 
+//      * whenever we submit a form we prevent reload the page
+//      * and call our callback func
+//     */
+//      e.preventDefault();
+//      controlSearch();
+//  });
 
 
 
@@ -95,20 +95,19 @@ elements.searchResPages.addEventListener('click', e=>{//button functionality
      //window.location whole search bar, hash is a string and we can call all string methods on it
     //we need our # symbol in url to use hash
      const id = window.location.hash.replace('#','');
-    console.log(id);
 
     if(id){
         //Prepare UI for changes
 
         //Create a new recipe object based on the Recipe model and save it in our state, same like we did wit the search
         state.recipe = new Recipe(id);
-        //TESTINg now we have acces it is in the global object
-        window.r = state.recipe;
+        window.r = state.recipe;//testing
         try{ 
                 //Get Recipe data it return prome so we wait (await) before we continue
                 await state.recipe.getRecipe();// getRecipe() method, we need to await for the results returned from the API. Only then we can assign the data returned from the API to appropriate properties.In the controlRecipe() function, we can't go further without the values assigned in the getRecipe() function. That's why we also need to await here.
-
+                console.log(state.recipe.ingredients);
                 state.recipe.parseIngrediens();
+
                 //Calcutale servings and time
                 state.recipe.calcTime();
                 state.recipe.calcServings();
