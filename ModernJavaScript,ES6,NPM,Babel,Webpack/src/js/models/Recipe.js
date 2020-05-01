@@ -34,7 +34,7 @@ export default class Recipe {
    parseIngrediens() {
         const unitsLong = ['tablespoons', 'tablespoon', 'ounces','ounce', 'teaspoons','teaspoon','cups', 'pounds'];
         const unitsShort = ['tbsp', 'tbsp','oz','oz', 'tsp','tsp','cup', 'pound'];
-       
+       const units = [...unitsShort, 'kg', 'g']; //destructuring
 
         /**
          * First round we take ingredient from index 0 ('One teaspoon of sugar') and apply modification on this string after our inner loops ends we move to other string

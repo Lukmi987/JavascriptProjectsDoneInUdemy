@@ -1,7 +1,8 @@
 import Search from './models/Search';
 import * as searchView from './views/searchView';
-import {elements, renderLoader,removeArrow} from './views/base';
+import {elements, renderLoader,removeArrow, elementString} from './views/base';
 import Recipe from './models/Recipe';
+import * as recipeView from './views/recipeView';
 
 
 
@@ -98,6 +99,8 @@ elements.searchResPages.addEventListener('click', e=>{//button functionality
 
     if(id){
         //Prepare UI for changes
+        recipeView.clearRecipe();
+        renderLoader(elements.recipe);//spinnig arrow
 
         //Create a new recipe object based on the Recipe model and save it in our state, same like we did wit the search
         state.recipe = new Recipe(id);
@@ -105,7 +108,7 @@ elements.searchResPages.addEventListener('click', e=>{//button functionality
         try{ 
                 //Get Recipe data it return prome so we wait (await) before we continue
                 await state.recipe.getRecipe();// getRecipe() method, we need to await for the results returned from the API. Only then we can assign the data returned from the API to appropriate properties.In the controlRecipe() function, we can't go further without the values assigned in the getRecipe() function. That's why we also need to await here.
-                console.log(state.recipe.ingredients);
+               
                 state.recipe.parseIngrediens();
 
                 //Calcutale servings and time
@@ -113,7 +116,8 @@ elements.searchResPages.addEventListener('click', e=>{//button functionality
                 state.recipe.calcServings();
 
                 //Render the recipe
-                console.log(state.recipe);
+                removeArrow();
+                recipeView.renderRecipe(state.recipe);
                 // no state holds 2 objects: {search: Search, recipe: Recipe}
             // console.log(state);
         } catch(error){
