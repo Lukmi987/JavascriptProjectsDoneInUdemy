@@ -3,6 +3,7 @@ import * as searchView from './views/searchView';
 import {elements, renderLoader,removeArrow, elementString} from './views/base';
 import Recipe from './models/Recipe';
 import * as recipeView from './views/recipeView';
+import List from './models/List';
 
 
 
@@ -140,7 +141,7 @@ elements.recipe.addEventListener('click', e=> {
    
     //True if target matches the button decrease or any child element of the button
     //we tes what was clicked and react
-    if (e.target.matches('btn-decrease, .btn-decrease *')){
+    if (e.target.closest('.btn-decrease')){// The matches() method only checks the class of the actual element itself.
         if(state.recipe.servings > 1){ 
             state.recipe.updateServings('dec');
             recipeView.updateServingsIngredients(state.recipe);//update user Interface people count
@@ -149,5 +150,7 @@ elements.recipe.addEventListener('click', e=> {
         state.recipe.updateServings('inc');
         recipeView.updateServingsIngredients(state.recipe);
     }
-        console.log(state.recipe);
+
 });
+
+window.list = new List();

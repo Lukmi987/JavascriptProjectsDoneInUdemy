@@ -129,6 +129,9 @@ export const updateServingsIngredients = recipe => {
     recipe.ingredients.forEach((el,i) => {
        countElements[i].textContent = formatCount(el.count);
     }); 
+
+    // No need to use array from anymore Array.from() coz
+//the code works perfectly without this, iterating over a NodeList instead of converting it into an array.
     //other way around
     //countElements.forEach((el,i) =>{
       //  el.textContent = formatCount(recipe.ingredients[i].count);
