@@ -132,3 +132,22 @@ elements.searchResPages.addEventListener('click', e=>{//button functionality
  //window.addEventListener('hashchange', controlRecipe);
  //windows.addEventListener('load',controlRecipe);, The load event is fired when the whole page has loaded
 ['hashchange','load'].forEach(event => window.addEventListener(event, controlRecipe));
+
+
+// Handling recipe button clicks, using Event Delegation coz the buttons are not yet there by the time we load the page
+
+elements.recipe.addEventListener('click', e=> {
+   
+    //True if target matches the button decrease or any child element of the button
+    //we tes what was clicked and react
+    if (e.target.matches('btn-decrease, .btn-decrease *')){
+        if(state.recipe.servings > 1){ 
+            state.recipe.updateServings('dec');
+            recipeView.updateServingsIngredients(state.recipe);//update user Interface people count
+        }
+    } else if(e.target.matches('btn-increase, .btn-increase *')){ 
+        state.recipe.updateServings('inc');
+        recipeView.updateServingsIngredients(state.recipe);
+    }
+        console.log(state.recipe);
+});
