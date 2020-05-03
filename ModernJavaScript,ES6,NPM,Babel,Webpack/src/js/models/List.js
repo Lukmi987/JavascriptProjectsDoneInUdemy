@@ -13,7 +13,8 @@ export default class List {
             unit,
             ingredient
         }
-        this.items = item;
+         this.items.push(item);
+        return item;
     }
 
     deleteItem(id){

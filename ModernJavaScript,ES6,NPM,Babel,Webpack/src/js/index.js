@@ -3,6 +3,7 @@ import * as searchView from './views/searchView';
 import {elements, renderLoader,removeArrow, elementString} from './views/base';
 import Recipe from './models/Recipe';
 import * as recipeView from './views/recipeView';
+import * as listView from './views/listView';
 import List from './models/List';
 
 
@@ -18,6 +19,7 @@ import List from './models/List';
  */ 
 //my central variable
 const state = {};
+window.state = state;
 
 const controlSearch = async () => {
     // 1) Get query from view  
@@ -27,7 +29,8 @@ const controlSearch = async () => {
     if(query){
         // 2) New Search object and add to state
         state.search = new Search(query); //new instance where our object currently lives
-        console.log(state.search);
+        //console.log(state.search);
+
         //3) Prepare UI for results
         searchView.clearInput();
         searchView.clearResults(); //clear old results
@@ -135,13 +138,53 @@ elements.searchResPages.addEventListener('click', e=>{//button functionality
 ['hashchange','load'].forEach(event => window.addEventListener(event, controlRecipe));
 
 
-// Handling recipe button clicks, using Event Delegation coz the buttons are not yet there by the time we load the page
 
+/**
+ * LIST Controller
+ */
+
+const controlList = () => {
+    //Create a new list If there is a none yet
+    if (!state.list) state.list = new List(); // want to initialize an empty object
+    
+    //Add each ingredient to the list
+    state.recipe.ingredients.forEach(el => {
+      const item = state.list.addItem(el.count,el.unit,el.ingredient);
+        // Render the list to shopping list
+      listView.renderItem(item);
+    });
+    
+}
+
+//Handle delete and update list item events
+elements.shoppingList.addEventListener('click', e => {
+   const id = e.target.closest('.shopping__item').dataset.itemid;
+    console.log(`Any id ${id}`);
+   if(e.target.closest('.shopping__delete')){
+    //Delete from state
+    state.list.deleteItem(id);
+    //Delete from UI
+    listView.deleteItem(id);
+
+    // Handle the count update
+    } else if(e.target.closest('.shopping__count-value')){  
+        const val = parseFloat(e.target.value,10);
+        console.log(val);
+       if(val > 0) state.list.updateCount(id,val);
+    }   
+});
+
+
+
+
+
+// Handling recipe button clicks, using Event Delegation coz the buttons are not yet there by the time we load the page
 elements.recipe.addEventListener('click', e=> {
    
     //True if target matches the button decrease or any child element of the button
     //we tes what was clicked and react
     if (e.target.closest('.btn-decrease')){// The matches() method only checks the class of the actual element itself.
+        console.log(state.recipe.ingredients);
         if(state.recipe.servings > 1){ 
             state.recipe.updateServings('dec');
             recipeView.updateServingsIngredients(state.recipe);//update user Interface people count
@@ -149,8 +192,9 @@ elements.recipe.addEventListener('click', e=> {
     } else if(e.target.matches('btn-increase, .btn-increase *')){ 
         state.recipe.updateServings('inc');
         recipeView.updateServingsIngredients(state.recipe);
+    }else if(e.target.closest('.recipe__btn--add')){
+       controlList();      
     }
-
 });
 
 window.list = new List();
