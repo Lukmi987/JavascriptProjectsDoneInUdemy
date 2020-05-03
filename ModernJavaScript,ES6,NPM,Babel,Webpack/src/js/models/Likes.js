@@ -1,17 +1,26 @@
+import uniqid from 'uniqid';
+
 export default class Likes {
     constructor() {
         this.likes = [];
     }
 
-    addLike(id,title,auther,img){
-        const like = {id, title, author, img};
+    addLike(id,title,author,img){
+        const like = {
+            id,
+            title, 
+            author, 
+            img
+        };
         this.likes.push(like);
         return like;
     }
 
     deleteLike(id){
+        console.log(id);
         const index = this.likes.findIndex(el => el.id === id);
-        this.likes.slice(index,1);
+        console.log(index);
+        this.likes.splice(index, 1);
     }
 
     isLiked(id) {

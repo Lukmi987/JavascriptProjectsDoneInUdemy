@@ -5,8 +5,7 @@ import Recipe from './models/Recipe';
 import * as recipeView from './views/recipeView';
 import * as listView from './views/listView';
 import List from './models/List';
-
-
+import Likes from './models/Likes';
 
 
 
@@ -177,6 +176,45 @@ elements.shoppingList.addEventListener('click', e => {
 
 
 
+/**
+ * LIKE Controller
+ */
+
+
+const controlLike = () => {
+     //Create a new list If there is a none yet
+    if(!state.likes) state.likes = new Likes();
+    const currentID = state.recipe.id;
+
+     //User has not yet liked current recipe
+    if(!state.likes.isLiked(currentID)) {
+        //Add like to the state
+        const newLike = state.likes.addLike(
+            currentID,
+            state.recipe.title,
+            state.recipe.author,
+            state.recipe.img
+        );
+        //Toggle the like button
+
+        //Add like to UI list
+       
+        console.log('ahoj');
+        console.log(state.likes);
+    } else { // User has liked current recipe
+     
+        //Remove like from the state
+        state.likes.deleteLike(currentID);
+        //Toggle the like button
+
+        //Remove like from UI list
+     };
+    // state.recipe.forEach( el => {
+    //     likeList.addLike(el.title,el.author, el.img);
+    // });
+};
+
+
 
 // Handling recipe button clicks, using Event Delegation coz the buttons are not yet there by the time we load the page
 elements.recipe.addEventListener('click', e=> {
@@ -193,7 +231,11 @@ elements.recipe.addEventListener('click', e=> {
         state.recipe.updateServings('inc');
         recipeView.updateServingsIngredients(state.recipe);
     }else if(e.target.closest('.recipe__btn--add')){
-       controlList();      
+       //Add the ingredients to shopping List
+        controlList();      
+    } else if (e.target.matches('.recipe__love, .recipe__love *')){
+        //Like controlller
+        controlLike();
     }
 });
 
