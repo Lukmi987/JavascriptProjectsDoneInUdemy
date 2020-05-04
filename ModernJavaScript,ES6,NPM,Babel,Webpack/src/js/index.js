@@ -4,6 +4,7 @@ import {elements, renderLoader,removeArrow, elementString} from './views/base';
 import Recipe from './models/Recipe';
 import * as recipeView from './views/recipeView';
 import * as listView from './views/listView';
+import * as likesView from './views/likesView';
 import List from './models/List';
 import Likes from './models/Likes';
 
@@ -123,7 +124,7 @@ elements.searchResPages.addEventListener('click', e=>{//button functionality
 
                 //Render the recipe
                 removeArrow();
-                recipeView.renderRecipe(state.recipe);
+                recipeView.renderRecipe(state.recipe, state.likes.isLiked(id));
                 // no state holds 2 objects: {search: Search, recipe: Recipe}
             // console.log(state);
         } catch(error){
@@ -179,7 +180,7 @@ elements.shoppingList.addEventListener('click', e => {
 /**
  * LIKE Controller
  */
-
+state.likes = new Likes(); //se we add a new like when we load the page, in orde to be initialized
 
 const controlLike = () => {
      //Create a new list If there is a none yet
@@ -196,22 +197,23 @@ const controlLike = () => {
             state.recipe.img
         );
         //Toggle the like button
+            likesView.toggleLikeBtn(true);
 
         //Add like to UI list
+       likesView.renderLike(newLike);
        
-        console.log('ahoj');
-        console.log(state.likes);
     } else { // User has liked current recipe
      
         //Remove like from the state
         state.likes.deleteLike(currentID);
         //Toggle the like button
+        likesView.toggleLikeBtn(false);
 
         //Remove like from UI list
+        likesView.deleteLike(currentID);
      };
-    // state.recipe.forEach( el => {
-    //     likeList.addLike(el.title,el.author, el.img);
-    // });
+     //if 0 likes the heart symbol hide
+ likesView.toggleLikeMenu(state.likes.getNumLikes());
 };
 
 

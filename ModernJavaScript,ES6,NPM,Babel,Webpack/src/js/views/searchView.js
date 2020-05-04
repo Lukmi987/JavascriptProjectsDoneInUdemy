@@ -14,11 +14,11 @@ export const highlightSelected = id => {
         results_link.forEach(el => {
             el.classList.remove('results__link--active');
         });
-    document.querySelector(`a[href="#${id}"]`).classList.add('results__link--active'); // just class name but not the selector
+    document.querySelector(`.results__link[href="#${id}"]`).classList.add('results__link--active'); // just class name but not the selector
 };
 
 
-const limitRecipeTitle = (title,limit = 17) => {
+export const limitRecipeTitle = (title,limit = 17) => {
    // a const newTitle we can not really mutate, adding things to an array is not mutating the underlying variable itself, same for objects
     const newTitle = [];
     const callbackForReduce = (acc,cur) => { //first parame of reduce is callback with 2 paramaters, accumulator for each iteration of an array, second the current value
