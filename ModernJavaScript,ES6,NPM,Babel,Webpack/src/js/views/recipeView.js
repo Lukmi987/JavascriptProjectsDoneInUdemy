@@ -9,14 +9,15 @@ const formatCount = count => {
     if(count) { //count is defined
         // count = 2.5 --> 2 1/2
         // count = 0.5 --> 1/2
-        const [int,dec] = count.toString().split('.').map(el => parseInt(el,10));
-        if(!dec) return count;
+        const newCount = Math.round(count * 10000) / 10000; // to have for decimal places
+        const [int,dec] = newCount.toString().split('.').map(el => parseInt(el,10));
+        if(!dec) return newCount;
         
         if(int === 0){
-            const fr = new Fraction(count);
+            const fr = new Fraction(newCount);
             return `${fr.numerator}/${fr.denominator}`; //0.5 result 1/2
         } else {
-            const fr = new Fraction(count - int); //2.5 -2 so 0.5 now we apply same like before
+            const fr = new Fraction(newCount - int); //2.5 -2 so 0.5 now we apply same like before
             return `${int} ${fr.numerator}/${fr.denominator}`;
         }
 

@@ -12,7 +12,7 @@ export const toggleLikeBtn = isLiked => {
 }
 
 
-//if we should show the like menu
+//if we should show the like menu symbol in right top corner ()
 export const toggleLikeMenu = numLikes => {
     //if we have many styles to apply we could define a  class in css and toggle that class using Javascript
     elements.likesMenu.style.visibility = numLikes > 0 ? 'visible' : 'hidden';
@@ -37,10 +37,10 @@ export const renderLike = like => {
 
 export const deleteLike = id => {
         //selct on based on href attribute, select the links with the likes link class
-    const el = document.querySelector(`.likes__link[href="#${id}"]`).parentElement;
+    const el = document.querySelector(`.likes__link[href*="#${id}"]`).parentElement;
     /**
      * so we selected a tags with class likes__link and we want to delete all between <li></li> so we select parent elementr
      */
-console.log(el.parentElement);
-     if(el) el.parentElement.removeChild(el);
+
+     if (el) el.parentElement.removeChild(el);
 }

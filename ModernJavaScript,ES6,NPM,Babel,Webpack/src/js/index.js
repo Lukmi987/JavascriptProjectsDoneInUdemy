@@ -180,8 +180,8 @@ elements.shoppingList.addEventListener('click', e => {
 /**
  * LIKE Controller
  */
-state.likes = new Likes(); //se we add a new like when we load the page, in orde to be initialized
-
+ 
+state.likes = new Likes();
 const controlLike = () => {
      //Create a new list If there is a none yet
     if(!state.likes) state.likes = new Likes();
@@ -189,6 +189,7 @@ const controlLike = () => {
 
      //User has not yet liked current recipe
     if(!state.likes.isLiked(currentID)) {
+        console.log('ahoj');
         //Add like to the state
         const newLike = state.likes.addLike(
             currentID,
@@ -216,7 +217,19 @@ const controlLike = () => {
  likesView.toggleLikeMenu(state.likes.getNumLikes());
 };
 
+//When we reload the page we want to restore our likes data
+window.addEventListener('load', () => {
+     state.likes = new Likes(); // an empty object after page reload
 
+    // //Restore likes
+     state.likes.readStorage();
+  
+    //Toggle like menu button in case there are some likes
+    likesView.toggleLikeMenu(state.likes.getNumLikes());
+
+    // //Render the existing likes
+     state.likes.likes.forEach( el => likesView.renderLike(el));
+});
 
 // Handling recipe button clicks, using Event Delegation coz the buttons are not yet there by the time we load the page
 elements.recipe.addEventListener('click', e=> {
